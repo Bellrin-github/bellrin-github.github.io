@@ -7,7 +7,7 @@
 	<link rel="manifest" href="./manifest.json">
 	<script>
 		if ('serviceWorker' in navigator) {
-	//		navigator.serviceWorker.register('./js/service-worker.js').then(function() { console.log('Service Worker Registered'); });
+			navigator.serviceWorker.register('./js/service-worker.js').then(function() { console.log('Service Worker Registered'); });
 		}
 	</script>
 	<script src="./js/enchant_js/enchant.js"></script>
@@ -20,8 +20,11 @@
 	<script src="./js/gameMain.js"></script>
 	<script src="./js/gameTitle.js"></script>
 	<script src="./js/main.js"></script>
+	<script src="./js/actionArea.js"></script>
 	<script src="./js/kuma.js"></script>
-		<script src="./js/touch.js"></script>
+	<script src="./js/board.js"></script>
+	<script src="./js/touch.js"></script>
+	<script src="./js/backGround.js"></script>
 </head>
 <body>
 <!--	<div id="enchant-stage"></div> -->
