@@ -24,10 +24,6 @@ cKuma.prototype.init = function() {
 };
 
 cKuma.prototype.action = function() {
-	if (touch.isTouch) {
-		console.log(touch.point);
-	}
-
 	++this.frame;
 };
 

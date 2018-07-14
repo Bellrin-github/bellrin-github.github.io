@@ -14,25 +14,6 @@ cGameMain.prototype.init = function() {
 		this.draw();
 	});
 
-	touch = new cTouch();
-
-	this.scene.addEventListener(Event.TOUCH_START, (e) => {
-		touch.isTouch = true;
-		touch.point.setX(e.x);
-		touch.point.setY(e.y);
-	});
-
-	this.scene.addEventListener(Event.TOUCH_MOVE, (e) => {
-		touch.point.setX(e.x);
-		touch.point.setY(e.y);
-	});
-
-	this.scene.addEventListener(Event.TOUCH_END, (e) => {
-		touch.isTouch = false;
-		touch.point.setX(e.x);
-		touch.point.setY(e.y);
-	});
-
 	// パズルエリア作成
 	this.board = new cBoard();
 	this.getGroup().addChild(this.board.getGroup());

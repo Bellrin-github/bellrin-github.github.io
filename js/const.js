@@ -3,9 +3,6 @@ const WINDOW_SIZE_W = 192;
 const WINDOW_SIZE_H = 320;
 const FPS = 24;
 
-const BOARD_CELL_WIDTH_COUNT = 6;
-const BOARD_CELL_HEIGHT_COUNT = 5;
-
 // font関連
 const DEFAULT_FONT_SIZE = 13;
 const DEFAULT_FONT_COLER = "rgb(0, 0, 0)";
@@ -18,6 +15,11 @@ const SPRITE_MW = 32;
 const SPRITE_MH = 32;
 const SPRITE_LW = 64;
 const SPRITE_LH = 64;
+
+const BOARD_CELL_WIDTH_COUNT = 6;
+const BOARD_CELL_HEIGHT_COUNT = 5;
+const BOARD_CELL_WIDTH = 6 * SPRITE_MW;
+const BOARD_CELL_HEIGHT = 5 * SPRITE_MH;
 
 // images
 const IMG_KUMA = './img/kuma.png';
