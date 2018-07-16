@@ -20,6 +20,8 @@ cDrop.prototype.init = function(id, x, y) {
 	this.sprite.ontouchstart = (e) => {
 		touch.point.setX(Math.floor(e.x));
 		touch.point.setY(Math.floor(e.y - 160));
+		touch.setCellPoint(Math.floor(touch.point.x / SPRITE_MW), Math.floor(touch.point.y / SPRITE_MH));
+		touch.setCellPoint(Math.floor(touch.point.x / SPRITE_MW), Math.floor(touch.point.y / SPRITE_MH));
 		touch.isTouch = true;
 		touch.pickDropId = this.id;
 		this.sprite.opacity = 0.5;
@@ -45,6 +47,32 @@ cDrop.prototype.init = function(id, x, y) {
 
 cDrop.prototype.action = function() {
 	++this.frame;
+
+	if (this.point.x > this.x * SPRITE_MW) {
+		this.point.x -= 10;
+		if (this.point.x <= this.x * SPRITE_MW) {
+			this.point.x = this.x * SPRITE_MW;
+		}
+	} else
+	if (this.point.x < this.x * SPRITE_MW) {
+		this.point.x += 10;
+		if (this.point.x >= this.x * SPRITE_MW) {
+			this.point.x = this.x * SPRITE_MW;
+		}
+	}
+
+	if (this.point.y > this.y * SPRITE_MH) {
+		this.point.y -= 10;
+		if (this.point.y <= this.y * SPRITE_MH) {
+			this.point.y = this.y * SPRITE_MH;
+		}
+	} else
+	if (this.point.y < this.y * SPRITE_MH) {
+		this.point.y += 10;
+		if (this.point.y >= this.y * SPRITE_MH) {
+			this.point.y = this.y * SPRITE_MH;
+		}
+	}
 };
 
 cDrop.prototype.draw = function() {

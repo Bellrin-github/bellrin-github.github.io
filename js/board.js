@@ -39,13 +39,7 @@ cBoard.prototype.init = function() {
 	this.getGroup().addChild(liftDrop);
 
 	this.getGroup().addEventListener(Event.TOUCH_MOVE, (e) => {
-		touch.point.setX(Math.floor(e.x));
-		touch.point.setY(Math.floor(e.y - 160));
-		liftDrop.x = touch.point.x - 16;
-		liftDrop.y = touch.point.y - 16;
-
-		touch.cellPoint.x = Math.floor(touch.point.x / SPRITE_MW);
-		touch.cellPoint.y = Math.floor(touch.point.y / SPRITE_MH);
+		this.touchMove(e);
 	});
 };
 
@@ -62,5 +56,45 @@ cBoard.prototype.action = function() {
 cBoard.prototype.draw = function() {
 	for (let i=0; i<this.drops.length; ++i) {
 		this.drops[i].draw();
+	}
+};
+
+cBoard.prototype.touchMove = function(e) {
+	touch.point.setX(Math.floor(e.x));
+	touch.point.setY(Math.floor(e.y - 160));
+	liftDrop.x = touch.point.x - 16;
+	liftDrop.y = touch.point.y - 16;
+
+	touch.setCellPoint(Math.floor(touch.point.x / SPRITE_MW), Math.floor(touch.point.y / SPRITE_MH));
+
+	if (touch.isChangeCellPoint()) {
+		let oldCellDropId = null;
+		let newCellDropId = null;
+		for (let i=0; i<this.drops.length; ++i) {
+			// 新しセルにあるドロップID設定
+			if (touch.hitCheck(this.drops[i].x, this.drops[i].y) == 1) {
+				newCellDropId = i;
+			} else
+			// 古いセルにあるドロップID設定
+			if (touch.hitCheck(this.drops[i].x, this.drops[i].y) == 2) {
+				oldCellDropId = i;
+			}
+			// 両方設定されたら終了
+			if (newCellDropId != null && oldCellDropId != null) {
+				break;
+			}
+		}
+
+		// 予期せぬ動作にならない限りここはtrueにならないはず
+		if (newCellDropId == null || oldCellDropId == null) {
+			return;
+		}
+
+		let x = this.drops[oldCellDropId].x;
+		let y = this.drops[oldCellDropId].y;
+		this.drops[oldCellDropId].x = this.drops[newCellDropId].x;
+		this.drops[oldCellDropId].y = this.drops[newCellDropId].y;
+		this.drops[newCellDropId].x = x;
+		this.drops[newCellDropId].y = y;
 	}
 };

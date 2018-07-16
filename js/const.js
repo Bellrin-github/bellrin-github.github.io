@@ -1,7 +1,7 @@
 // global
 const WINDOW_SIZE_W = 192;
 const WINDOW_SIZE_H = 320;
-const FPS = 24;
+const FPS = 30;
 
 // font関連
 const DEFAULT_FONT_SIZE = 13;
