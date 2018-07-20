@@ -5,6 +5,7 @@ let cTouch = function() {
 	this.cellPointOld;
 	this.count;
 	this.pickDropId;
+	this.isChange;
 	this.init();
 };
 
@@ -15,6 +16,7 @@ cTouch.prototype.init = function() {
 	this.cellPointOld = new cPoint(-1, -1, 1, 1);
 	this.count = 0;
 	this.pickDropId = null;
+	this.isChange = false;
 };
 
 cTouch.prototype.setCellPoint = function(x, y) {
@@ -25,8 +27,13 @@ cTouch.prototype.setCellPoint = function(x, y) {
 };
 
 cTouch.prototype.isChangeCellPoint = function() {
-	return touch.cellPointOld.x != touch.cellPoint.x
-		|| touch.cellPointOld.y != touch.cellPoint.y;
+	const change = touch.cellPointOld.x != touch.cellPoint.x || touch.cellPointOld.y != touch.cellPoint.y
+
+	if (change) {
+		this.isChange = true;
+	}
+
+	return change;
 };
 
 cTouch.prototype.hitCheck = function(x, y) {
