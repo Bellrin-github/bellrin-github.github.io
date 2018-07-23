@@ -4,6 +4,7 @@ cBoard = function() {
 	this.dropColors;
 	this.deleteGroupId;
 	this.frame;
+	this.comboCount;
 	this.init();
 };
 inherits(cBoard, cTask);
@@ -52,6 +53,14 @@ cBoard.prototype.init = function() {
 };
 
 cBoard.prototype.action = function() {
+	let dropMove = false;
+
+	for (let i=0; i<this.drops.length; ++i) {
+		if (this.drops[i].action()) {
+			dropMove = true;
+		}
+	}
+
 	switch (mainTask) {
 		case MAIN_TASK_WAIT: // ドロップ持ち上げ待ち
 			break;
@@ -70,6 +79,7 @@ cBoard.prototype.action = function() {
 					break
 				}
 				mainTask = MAIN_TASK_CHECK;
+				this.comboCount = 0;
 			}
 			break;
 		case MAIN_TASK_CHECK: // ドロップが消えるかチェック
@@ -83,7 +93,7 @@ cBoard.prototype.action = function() {
 		case MAIN_TASK_COMBO: // ドロップを消す
 			if (this.frame == 0) {
 				if (!this.dropDeleteAnimation()) {
-					mainTask = MAIN_TASK_FALL;
+					mainTask = MAIN_TASK_REFLESH;
 				}
 			}
 
@@ -92,15 +102,19 @@ cBoard.prototype.action = function() {
 			}
 
 			break;
-		case MAIN_TASK_FALL: // ドロップを補充
-			mainTask = MAIN_TASK_WAIT;
+		case MAIN_TASK_REFLESH: // ドロップを補充
+			this.dropReflesh();
+			mainTask = MAIN_TASK_FALL;
+			break;
+		case MAIN_TASK_FALL: // ドロップ落下
+			if (dropMove) {
+				break;
+			}
+
+			mainTask = MAIN_TASK_CHECK;
 			break;
 		case MAIN_TASK_POWER_UP: // パワーアップ演出
 			break;
-	}
-
-	for (let i=0; i<this.drops.length; ++i) {
-		this.drops[i].action();
 	}
 };
 
@@ -224,6 +238,9 @@ cBoard.prototype.dropDeleteAnimation = function() {
 
 		if (!isDelete) {
 			++this.deleteGroupId;
+		} else {
+			++this.comboCount;
+			console.log(this.comboCount);
 		}
 	}
 
@@ -255,4 +272,58 @@ cBoard.prototype.checkRecursive = function(x, y, checkCell, color) {
 	this.checkRecursive(x, y + 1, checkCell, color); //下
 	this.checkRecursive(x, y - 1, checkCell, color); //上
 	return;
+};
+
+cBoard.prototype.dropReflesh = function() {
+	// 新しい色を決めて未配置にする
+	for (let y=0; y<BOARD_CELL_HEIGHT_COUNT; ++y) {
+		for (let x=0; x<BOARD_CELL_WIDTH_COUNT; ++x) {
+			if (this.drops[this.dropColors[y][x].id].sprite.opacity < 1.0) {
+				this.drops[this.dropColors[y][x].id].sprite.frame = 10 + Math.floor(Math.random() * 6);
+				this.dropColors[y][x].id = null;
+			}
+		}
+	}
+
+	// 残ったドロップを下に詰める
+	for (let y=BOARD_CELL_HEIGHT_COUNT-1; y>=0; --y) {
+		for (let x=0; x<BOARD_CELL_WIDTH_COUNT; ++x) {
+			// 空きマスか判別
+			if (this.dropColors[y][x].id == null) {
+				// 空きマスなら、上にドロップがあるかチェックしあれば、配置
+				for (let uy=y-1; uy>=0; --uy) {
+					if (this.dropColors[uy][x].id != null) {
+						if (this.drops[this.dropColors[uy][x].id].sprite.opacity >= 1.0) {
+							this.drops[this.dropColors[uy][x].id].x = x;
+							this.drops[this.dropColors[uy][x].id].y = y;
+							this.dropColors[y][x].id = this.drops[this.dropColors[uy][x].id].id;
+							this.dropColors[uy][x].id = null;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// 詰め終わって空になったマス用に、未配置ドロップを割り当てる
+	for (let y=BOARD_CELL_HEIGHT_COUNT-1; y>=0; --y) {
+		for (let x=0; x<BOARD_CELL_WIDTH_COUNT; ++x) {
+			// 空きマスか判別
+			if (this.dropColors[y][x].id == null) {
+				for (let n=0; n<this.drops.length; ++n) {
+					if (this.drops[n].sprite.opacity < 1.0) {
+						this.dropColors[y][x].id = this.drops[n].id;
+						this.drops[n].sprite.opacity = 1.0;
+						this.drops[n].x = x;
+						this.drops[n].point.x = x * SPRITE_MW;
+						this.drops[n].y = y;
+						this.drops[n].point.y = 0 - ((BOARD_CELL_HEIGHT_COUNT - y) * SPRITE_MH);
+						break;
+					}
+				}
+			}
+		}
+	}
+
 };

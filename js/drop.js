@@ -3,6 +3,7 @@ cDrop = function(id, x, y) {
 	this.point;
 	this.frame;
 	this.speed;
+	this.sprite;
 	this.x;
 	this.y;
 	this.deleteId;
@@ -55,13 +56,17 @@ cDrop.prototype.init = function(id, x, y) {
 cDrop.prototype.action = function() {
 	++this.frame;
 
+	let isMove = false;
+
 	if (this.point.x > this.x * SPRITE_MW) {
+		isMove = true;
 		this.point.x -= 10;
 		if (this.point.x <= this.x * SPRITE_MW) {
 			this.point.x = this.x * SPRITE_MW;
 		}
 	} else
 	if (this.point.x < this.x * SPRITE_MW) {
+		isMove = true;
 		this.point.x += 10;
 		if (this.point.x >= this.x * SPRITE_MW) {
 			this.point.x = this.x * SPRITE_MW;
@@ -69,17 +74,21 @@ cDrop.prototype.action = function() {
 	}
 
 	if (this.point.y > this.y * SPRITE_MH) {
+		isMove = true;
 		this.point.y -= 10;
 		if (this.point.y <= this.y * SPRITE_MH) {
 			this.point.y = this.y * SPRITE_MH;
 		}
 	} else
 	if (this.point.y < this.y * SPRITE_MH) {
+		isMove = true;
 		this.point.y += 10;
 		if (this.point.y >= this.y * SPRITE_MH) {
 			this.point.y = this.y * SPRITE_MH;
 		}
 	}
+
+	return isMove;
 };
 
 cDrop.prototype.draw = function() {

@@ -26,8 +26,9 @@ const MAIN_TASK_LIFT = 2; // ドロップ持ち上げ中
 const MAIN_TASK_MOVE = 3; // ドロップ移動中
 const MAIN_TASK_CHECK = 4; // ドロップが消えるかチェック
 const MAIN_TASK_COMBO = 5; // ドロップを消す
-const MAIN_TASK_FALL = 6; // ドロップを補充
-const MAIN_TASK_POWER_UP = 7; // パワーアップ演出
+const MAIN_TASK_REFLESH = 6; // ドロップを補充
+const MAIN_TASK_FALL = 7; // ドロップ落下
+const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
 
 // images
 const IMG_KUMA = './img/kuma.png';
