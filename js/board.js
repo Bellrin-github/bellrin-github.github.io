@@ -5,6 +5,7 @@ cBoard = function() {
 	this.deleteGroupId;
 	this.frame;
 	this.comboCount;
+	this.comboText;
 	this.init();
 };
 inherits(cBoard, cTask);
@@ -50,6 +51,8 @@ cBoard.prototype.init = function() {
 	});
 
 	mainTask = MAIN_TASK_WAIT;
+
+	this.comboText = null;
 };
 
 cBoard.prototype.action = function() {
@@ -58,6 +61,14 @@ cBoard.prototype.action = function() {
 	for (let i=0; i<this.drops.length; ++i) {
 		if (this.drops[i].action()) {
 			dropMove = true;
+		}
+	}
+
+	if (this.comboText) {
+		if (!this.comboText.action()) {
+			removeAllChild(this.comboText.getGroup());
+			this.getGroup().removeChild(this.comboText.getGroup());
+			this.comboText = null;
 		}
 	}
 
@@ -121,6 +132,10 @@ cBoard.prototype.action = function() {
 cBoard.prototype.draw = function() {
 	for (let i=0; i<this.drops.length; ++i) {
 		this.drops[i].draw();
+	}
+
+	if (this.comboText) {
+		this.comboText.action();
 	}
 };
 
@@ -331,6 +346,8 @@ cBoard.prototype.dropDeleteAnimation = function() {
 	}
 
 	let isDelete = false;
+	let comboTextX = null;
+	let comboTextY = null;
 	while (!isDelete && this.deleteGroupId < this.deleteId) {
 		for (let y=0; y<BOARD_CELL_HEIGHT_COUNT; ++y) {
 			for (let x=0; x<BOARD_CELL_WIDTH_COUNT; ++x) {
@@ -338,6 +355,10 @@ cBoard.prototype.dropDeleteAnimation = function() {
 					if (this.dropColors[y][x].connectionCount >= 3) {
 						this.drops[this.dropColors[y][x].id].sprite.opacity = 0.5;
 						isDelete = true;
+						if (!comboTextX) {
+							comboTextX = x * SPRITE_MW + (SPRITE_MW/2 - (SPRITE_SSW/2));
+							comboTextY = y * SPRITE_MH + (SPRITE_MH/2 - (SPRITE_SSH/2));
+						}
 					}
 				}
 			}
@@ -348,6 +369,7 @@ cBoard.prototype.dropDeleteAnimation = function() {
 		} else {
 			++this.comboCount;
 			// コンボ数
+			this.refleshComboText(this.comboCount, comboTextX, comboTextY);
 		}
 	}
 
@@ -408,4 +430,14 @@ cBoard.prototype.dropReflesh = function() {
 		}
 	}
 
+};
+
+cBoard.prototype.refleshComboText = function(num, x, y) {
+	if (this.comboText) {
+		removeAllChild(this.comboText.getGroup());
+		this.getGroup().removeChild(this.comboText.getGroup());
+	}
+
+	this.comboText = new cComboText(num, new cPoint(x, y, 8, 8));
+	this.getGroup().addChild(this.comboText.getGroup());
 };

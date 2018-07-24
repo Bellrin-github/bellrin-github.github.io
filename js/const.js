@@ -9,6 +9,8 @@ const DEFAULT_FONT_COLER = "rgb(0, 0, 0)";
 const DEFAULT_FOMT_FAMILY = DEFAULT_FONT_SIZE + "px 'ＭＳ ゴシック' ";
 
 // スプライト
+const SPRITE_SSW = 8;
+const SPRITE_SSH = 8;
 const SPRITE_SW = 16;
 const SPRITE_SH = 16;
 const SPRITE_MW = 32;
@@ -34,11 +36,13 @@ const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
 const IMG_KUMA = './img/kuma.png';
 const IMG_BOARD = './img/board.png';
 const IMG_MAP = './img/map.png';
+const IMG_NUMBER = './img/number.png';
 
 const IMG_LIST = [
-    IMG_KUMA,
-    IMG_BOARD,
-    IMG_MAP,
+	IMG_KUMA,
+	IMG_BOARD,
+	IMG_MAP,
+	IMG_NUMBER,
 ];
 
 const IMAGE_FRAME_BOARD_BG_1 = 1;
@@ -64,3 +68,17 @@ const BG_ARRAY = [
     [ 1,  1,  1,  1,  1,  1,  1],
     [10, 10, 10, 10, 10, 10, 10],
 ];
+
+// 文字列テクスチャのframe変換表
+const TEXT_TEXTURE_FRAME_LIST = {
+	"0": 0,
+	"1": 1,
+	"2": 2,
+	"3": 3,
+	"4": 4,
+	"5": 5,
+	"6": 6,
+	"7": 7,
+	"8": 8,
+	"9": 9,
+};
