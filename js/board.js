@@ -197,7 +197,15 @@ cBoard.prototype.deleteCheck = function() {
 				}
 			}
 
+			// 隣接個数チェック
 			this.checkRecursive(_x, _y, checkCell, this.dropColors[_y][_x].color);
+
+			// 隣接が上下左右いずれかに3個以上になっていないものは未連結に変更
+			const res = this.checkThreeUp(_x, _y, checkCell, this.dropColors[_y][_x].color);
+
+			if (!res) {
+				continue;
+			}
 
 			this.dropColors[_y][_x].connectionCount = 0;
 			for (let y=0; y<BOARD_CELL_HEIGHT_COUNT; ++y) {
@@ -216,6 +224,105 @@ cBoard.prototype.deleteCheck = function() {
 	}
 
 	return isDelete;
+};
+
+cBoard.prototype.checkRecursive = function(x, y, checkCell, color) {
+	if (x < 0 || x >= BOARD_CELL_WIDTH_COUNT || y < 0 || y >= BOARD_CELL_HEIGHT_COUNT) return; // 範囲外
+
+	if (0 < checkCell[y][x]) return; // 探索済み
+
+	if (this.dropColors[y][x].color != color) { //ブロックの種類が違う
+		checkCell[y][x] = 2;
+		return;
+	}
+
+	//一致
+	checkCell[y][x] = 1; //チェック
+
+	// 初めての一致なら一致グループ指定
+	if (this.dropColors[y][x].group < 0) {
+		this.dropColors[y][x].group = this.deleteId;
+	}
+
+	this.checkRecursive(x    , y - 1, checkCell, color); //上
+	this.checkRecursive(x + 1, y    , checkCell, color); //右
+	this.checkRecursive(x    , y + 1, checkCell, color); //下
+	this.checkRecursive(x - 1, y    , checkCell, color); //左
+	return;
+};
+
+cBoard.prototype.checkThreeUp = function(x, y, checkCell, color) {
+	let count = 1;
+	// 左
+	if (x - 1 >= 0) {
+		if (checkCell[y][x-1] == 1) {
+			++count;
+			if (x - 2 >= 0) {
+				if (checkCell[y][x-2] == 1) {
+					++count;
+				}
+			}
+		}
+	}
+
+	// 左方向に3個以上連結してるなら
+	if (count >= 3) {
+		return true;
+	}
+
+	// 右
+	if (x + 1 < BOARD_CELL_WIDTH_COUNT) {
+		if (checkCell[y][x+1] == 1) {
+			++count;
+			if (x + 2 < BOARD_CELL_WIDTH_COUNT) {
+				if (checkCell[y][x+2] == 1) {
+					++count;
+				}
+			}
+		}
+	}
+
+	// 右方向もしくは、左右合わせて3個以上連結してるなら
+	if (count >= 3) {
+		return true;
+	}
+
+	count = 1;
+	// 上
+	if (y - 1 >= 0) {
+		if (checkCell[y-1][x] == 1) {
+			++count;
+			if (y - 2 >= 0) {
+				if (checkCell[y-2][x] == 1) {
+					++count;
+				}
+			}
+		}
+	}
+
+	// 上方向に3個以上連結してるなら
+	if (count >= 3) {
+		return true;
+	}
+
+	// 下
+	if (y + 1 < BOARD_CELL_HEIGHT_COUNT) {
+		if (checkCell[y+1][x] == 1) {
+			++count;
+			if (y + 2 < BOARD_CELL_HEIGHT_COUNT) {
+				if (checkCell[y+2][x] == 1) {
+					++count;
+				}
+			}
+		}
+	}
+
+	// 下方向もしくは、上下合わせて3個以上連結してるなら
+	if (count >= 3) {
+		return true;
+	}
+
+	return false;
 };
 
 cBoard.prototype.dropDeleteAnimation = function() {
@@ -240,38 +347,13 @@ cBoard.prototype.dropDeleteAnimation = function() {
 			++this.deleteGroupId;
 		} else {
 			++this.comboCount;
-			console.log(this.comboCount);
+			// コンボ数
 		}
 	}
 
 	++this.deleteGroupId;
 
 	return true;
-};
-
-cBoard.prototype.checkRecursive = function(x, y, checkCell, color) {
-	if (x < 0 || x >= BOARD_CELL_WIDTH_COUNT || y < 0 || y >= BOARD_CELL_HEIGHT_COUNT) return; // 範囲外
-
-	if (0 < checkCell[y][x]) return; // 探索済み
-
-	if (this.dropColors[y][x].color != color) { //ブロックの種類が違う
-		checkCell[y][x] = 2;
-		return;
-	}
-
-	//一致
-	checkCell[y][x] = 1; //チェック
-
-	// 初めての一致なら一致グループ指定
-	if (this.dropColors[y][x].group < 0) {
-		this.dropColors[y][x].group = this.deleteId;
-	}
-
-	this.checkRecursive(x + 1, y, checkCell, color); //右探索
-	this.checkRecursive(x - 1, y, checkCell, color); //左
-	this.checkRecursive(x, y + 1, checkCell, color); //下
-	this.checkRecursive(x, y - 1, checkCell, color); //上
-	return;
 };
 
 cBoard.prototype.dropReflesh = function() {
