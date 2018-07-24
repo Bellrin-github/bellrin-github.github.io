@@ -19,10 +19,16 @@ cActionArea.prototype.init = function() {
 	this.getGroup().addChild(kuma.getGroup());
 
 	// 属性の強さエリア
-	smallIcon = new cSmallIcon();
-	smallIcon.getGroup().x = 2;
-	smallIcon.getGroup().y = 2;
-	this.getGroup().addChild(smallIcon.getGroup());
+	elementCountArea = new cElementCountArea();
+	elementCountArea.getGroup().x = 2;
+	elementCountArea.getGroup().y = 2;
+	this.getGroup().addChild(elementCountArea.getGroup());
+
+	// ドロップの操作時間
+	moveTimeLimit = new cMoveTimeLimit();
+	moveTimeLimit.getGroup().x = 1;
+	moveTimeLimit.getGroup().y = SPRITE_MW * 4 + SPRITE_MW - 11;
+	this.getGroup().addChild(moveTimeLimit.getGroup());
 };
 
 cActionArea.prototype.action = function() {

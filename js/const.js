@@ -32,6 +32,8 @@ const MAIN_TASK_REFLESH = 6; // ドロップを補充
 const MAIN_TASK_FALL = 7; // ドロップ落下
 const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
 
+const MOVE_TIME_MAX = 150;
+
 // images
 const IMG_KUMA = './img/kuma.png';
 const IMG_BOARD = './img/board.png';

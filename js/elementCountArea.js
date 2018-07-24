@@ -1,4 +1,4 @@
-cSmallIcon = function() {
+cElementCountArea = function() {
 	this.redSprite;
 	this.redText;
 	this.redCount;
@@ -20,9 +20,9 @@ cSmallIcon = function() {
 
 	this.init();
 };
-inherits(cSmallIcon, cTask);
+inherits(cElementCountArea, cTask);
 
-cSmallIcon.prototype.init = function() {
+cElementCountArea.prototype.init = function() {
 	let y=0;
 
 	this.redSprite = createSprite(IMG_SMALL_ICON, SMALL_IMAGE_FRAME_LIST.red_icon, new cPoint(0, (SPRITE_SSH+2)*y, SPRITE_SSW, SPRITE_SSH));
@@ -67,45 +67,45 @@ cSmallIcon.prototype.init = function() {
 	this.refleshPinkText();
 };
 
-cSmallIcon.prototype.action = function() {
+cElementCountArea.prototype.action = function() {
 
 };
 
-cSmallIcon.prototype.draw = function() {
+cElementCountArea.prototype.draw = function() {
 
 };
 
-cSmallIcon.prototype.addRedCount = function(n) {
+cElementCountArea.prototype.addRedCount = function(n) {
 	this.redCount += n;
 	this.refleshRedText();
 };
 
-cSmallIcon.prototype.addBlueCount = function(n) {
+cElementCountArea.prototype.addBlueCount = function(n) {
 	this.blueCount += n;
 	this.refleshBlueText();
 };
 
-cSmallIcon.prototype.addGreenCount = function(n) {
+cElementCountArea.prototype.addGreenCount = function(n) {
 	this.greenCount += n;
 	this.refleshGreenText();
 };
 
-cSmallIcon.prototype.addYellowCount = function(n) {
+cElementCountArea.prototype.addYellowCount = function(n) {
 	this.yellowCount += n;
 	this.refleshYellowText();
 };
 
-cSmallIcon.prototype.addBlackCount = function(n) {
+cElementCountArea.prototype.addBlackCount = function(n) {
 	this.blackCount += n;
 	this.refleshBlackText();
 };
 
-cSmallIcon.prototype.addPinkCount = function(n) {
+cElementCountArea.prototype.addPinkCount = function(n) {
 	this.pinkCount += n;
 	this.refleshPinkText();
 };
 
-cSmallIcon.prototype.refleshRedText = function() {
+cElementCountArea.prototype.refleshRedText = function() {
 	if (this.redText) {
 		removeAllChild(this.redText.getGroup());
 		this.getGroup().removeChild(this.redText.getGroup());
@@ -118,7 +118,7 @@ cSmallIcon.prototype.refleshRedText = function() {
 	this.getGroup().addChild(this.redText.getGroup());
 };
 
-cSmallIcon.prototype.refleshBlueText = function() {
+cElementCountArea.prototype.refleshBlueText = function() {
 	if (this.blueText) {
 		removeAllChild(this.blueText.getGroup());
 		this.getGroup().removeChild(this.blueText.getGroup());
@@ -131,7 +131,7 @@ cSmallIcon.prototype.refleshBlueText = function() {
 	this.getGroup().addChild(this.blueText.getGroup());
 };
 
-cSmallIcon.prototype.refleshGreenText = function() {
+cElementCountArea.prototype.refleshGreenText = function() {
 	if (this.greenText) {
 		removeAllChild(this.greenText.getGroup());
 		this.getGroup().removeChild(this.greenText.getGroup());
@@ -144,7 +144,7 @@ cSmallIcon.prototype.refleshGreenText = function() {
 	this.getGroup().addChild(this.greenText.getGroup());
 };
 
-cSmallIcon.prototype.refleshYellowText = function() {
+cElementCountArea.prototype.refleshYellowText = function() {
 	if (this.yellowText) {
 		removeAllChild(this.yellowText.getGroup());
 		this.getGroup().removeChild(this.yellowText.getGroup());
@@ -157,7 +157,7 @@ cSmallIcon.prototype.refleshYellowText = function() {
 	this.getGroup().addChild(this.yellowText.getGroup());
 };
 
-cSmallIcon.prototype.refleshBlackText = function() {
+cElementCountArea.prototype.refleshBlackText = function() {
 	if (this.blackText) {
 		removeAllChild(this.blackText.getGroup());
 		this.getGroup().removeChild(this.blackText.getGroup());
@@ -170,7 +170,7 @@ cSmallIcon.prototype.refleshBlackText = function() {
 	this.getGroup().addChild(this.blackText.getGroup());
 };
 
-cSmallIcon.prototype.refleshPinkText = function() {
+cElementCountArea.prototype.refleshPinkText = function() {
 	if (this.pinkText) {
 		removeAllChild(this.pinkText.getGroup());
 		this.getGroup().removeChild(this.pinkText.getGroup());

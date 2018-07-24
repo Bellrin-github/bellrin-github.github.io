@@ -83,8 +83,8 @@ cBoard.prototype.action = function() {
 			}
 			break;
 		case MAIN_TASK_MOVE: // ドロップ移動中
-			// 指を放した時点で、1マスも移動してなかったら待機に戻す
-			if (!touch.isTouch) {
+			// 移動時間終了か、指を放した時点で、1マスも移動してなかったら待機に戻す
+			if (!moveTimeLimit.action() || !touch.isTouch) {
 				if (!touch.isChange) {
 					mainTask = MAIN_TASK_WAIT;
 					break
@@ -377,22 +377,22 @@ cBoard.prototype.dropDeleteAnimation = function() {
 
 			switch (color) {
 				case IMAGE_FRAME_BOARD_DROP_RED:
-					smallIcon.addRedCount(count);
+					elementCountArea.addRedCount(count);
 					break;
 				case IMAGE_FRAME_BOARD_DROP_BLUE:
-					smallIcon.addBlueCount(count);
+					elementCountArea.addBlueCount(count);
 					break;
 				case IMAGE_FRAME_BOARD_DROP_GREEN:
-					smallIcon.addGreenCount(count);
+					elementCountArea.addGreenCount(count);
 					break;
 				case IMAGE_FRAME_BOARD_DROP_YELLOW:
-					smallIcon.addYellowCount(count);
+					elementCountArea.addYellowCount(count);
 					break;
 				case IMAGE_FRAME_BOARD_DROP_PURPLE:
-					smallIcon.addBlackCount(count);
+					elementCountArea.addBlackCount(count);
 					break;
 				case IMAGE_FRAME_BOARD_DROP_PINK:
-					smallIcon.addPinkCount(count);
+					elementCountArea.addPinkCount(count);
 					break;
 			}
 		}
