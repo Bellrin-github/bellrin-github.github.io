@@ -349,12 +349,16 @@ cBoard.prototype.dropDeleteAnimation = function() {
 	let comboTextX = null;
 	let comboTextY = null;
 	while (!isDelete && this.deleteGroupId < this.deleteId) {
+		let color;
+		let count = 0;
 		for (let y=0; y<BOARD_CELL_HEIGHT_COUNT; ++y) {
 			for (let x=0; x<BOARD_CELL_WIDTH_COUNT; ++x) {
 				if (this.dropColors[y][x].group == this.deleteGroupId) {
 					if (this.dropColors[y][x].connectionCount >= 3) {
 						this.drops[this.dropColors[y][x].id].sprite.opacity = 0.5;
 						isDelete = true;
+						++count;
+						color = this.drops[this.dropColors[y][x].id].sprite.frame;
 						if (!comboTextX) {
 							comboTextX = x * SPRITE_MW + (SPRITE_MW/2 - (SPRITE_SSW/2));
 							comboTextY = y * SPRITE_MH + (SPRITE_MH/2 - (SPRITE_SSH/2));
@@ -370,6 +374,27 @@ cBoard.prototype.dropDeleteAnimation = function() {
 			++this.comboCount;
 			// コンボ数
 			this.refleshComboText(this.comboCount, comboTextX, comboTextY);
+
+			switch (color) {
+				case IMAGE_FRAME_BOARD_DROP_RED:
+					smallIcon.addRedCount(count);
+					break;
+				case IMAGE_FRAME_BOARD_DROP_BLUE:
+					smallIcon.addBlueCount(count);
+					break;
+				case IMAGE_FRAME_BOARD_DROP_GREEN:
+					smallIcon.addGreenCount(count);
+					break;
+				case IMAGE_FRAME_BOARD_DROP_YELLOW:
+					smallIcon.addYellowCount(count);
+					break;
+				case IMAGE_FRAME_BOARD_DROP_PURPLE:
+					smallIcon.addBlackCount(count);
+					break;
+				case IMAGE_FRAME_BOARD_DROP_PINK:
+					smallIcon.addPinkCount(count);
+					break;
+			}
 		}
 	}
 

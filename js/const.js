@@ -37,12 +37,14 @@ const IMG_KUMA = './img/kuma.png';
 const IMG_BOARD = './img/board.png';
 const IMG_MAP = './img/map.png';
 const IMG_NUMBER = './img/number.png';
+const IMG_SMALL_ICON = './img/small_icon.png';
 
 const IMG_LIST = [
 	IMG_KUMA,
 	IMG_BOARD,
 	IMG_MAP,
 	IMG_NUMBER,
+	IMG_SMALL_ICON,
 ];
 
 const IMAGE_FRAME_BOARD_BG_1 = 1;
@@ -54,11 +56,29 @@ const IMAGE_FRAME_BOARD_DROP_YELLOW = 13;
 const IMAGE_FRAME_BOARD_DROP_PURPLE = 14;
 const IMAGE_FRAME_BOARD_DROP_PINK = 15;
 
+// スモールアイコン画像のframeリスト
+const SMALL_IMAGE_FRAME_LIST = {
+	'red_icon': 0,
+	'blue_icon': 1,
+	'green_icon': 2,
+	'yellow_icon': 3,
+	'black_icon': 4,
+	'pink_icon': 5,
+};
+
 // 向き定数
 const D_RIGHT = 0;
 const D_UP = 1;
 const D_DOWN = 2;
 const D_LEFT = 3;
+
+// 属性定数
+const ELEMENT_NONE = 0;
+const ELEMENT_RED = 1;
+const ELEMENT_BLUE = 2;
+const ELEMENT_GREEN = 3;
+const ELEMENT_YELLOW = 4;
+const ELEMENT_BLACK = 5;
 
 // 試験用固定背景
 const BG_ARRAY = [

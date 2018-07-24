@@ -2,6 +2,8 @@ cKuma = function() {
 	this.point;
 	this.frame;
 	this.speed;
+	this.status;
+	this.stock;
 	this.init();
 };
 inherits(cKuma, cTask);
@@ -9,6 +11,15 @@ inherits(cKuma, cTask);
 cKuma.prototype.init = function() {
 	this.frame = 0;
 	this.point = new cPoint(0, SPRITE_MH*3-14, SPRITE_MW, SPRITE_MH);
+
+	this.status = new cStatus();
+	this.status.hp = 100;
+	this.status.maxHp = 100;
+	this.status.str = 5;
+	this.status.def = 5;
+	this.status.speed = 5;
+
+	this.stock = new cStock();
 
 	this.sprite = createSprite(IMG_KUMA, 0, this.point);
 	this.sprite.frames = [

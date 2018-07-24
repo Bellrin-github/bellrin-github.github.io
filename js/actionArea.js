@@ -17,6 +17,12 @@ cActionArea.prototype.init = function() {
 	// クマ作成
 	kuma = new cKuma();
 	this.getGroup().addChild(kuma.getGroup());
+
+	// 属性の強さエリア
+	smallIcon = new cSmallIcon();
+	smallIcon.getGroup().x = 2;
+	smallIcon.getGroup().y = 2;
+	this.getGroup().addChild(smallIcon.getGroup());
 };
 
 cActionArea.prototype.action = function() {
