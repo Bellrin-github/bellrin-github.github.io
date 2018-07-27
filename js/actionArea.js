@@ -18,25 +18,43 @@ cActionArea.prototype.init = function() {
 	kuma = new cKuma();
 	this.getGroup().addChild(kuma.getGroup());
 
-	// 属性の強さエリア
+	// 属性の強さエリア (actionはboad.phpに記載)
 	elementCountArea = new cElementCountArea();
 	elementCountArea.getGroup().x = 2;
 	elementCountArea.getGroup().y = 2;
 	this.getGroup().addChild(elementCountArea.getGroup());
 
-	// ドロップの操作時間
+	// ドロップの操作時間 (actionはboad.phpに記載)
 	moveTimeLimit = new cMoveTimeLimit();
 	moveTimeLimit.getGroup().x = 1;
 	moveTimeLimit.getGroup().y = SPRITE_MW * 4 + SPRITE_MW - 11;
 	this.getGroup().addChild(moveTimeLimit.getGroup());
+
+	// 敵出現管理
+	enemyPop = new cEnemyPop();
+
+	// 敵
+	enemy = null;
 };
 
 cActionArea.prototype.action = function() {
 	this.backGround.action();
 	kuma.action();
+
+	if (enemyPop.action() != false) {
+		this.getGroup().addChild(enemy.getGroup());
+	}
+
+	if (enemy) {
+		enemy.action();
+	}
 };
 
 cActionArea.prototype.draw = function() {
 	this.backGround.draw();
 	kuma.draw();
+
+	if (enemy) {
+		enemy.draw();
+	}
 };

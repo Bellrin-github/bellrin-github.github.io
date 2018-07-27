@@ -32,6 +32,23 @@ const MAIN_TASK_REFLESH = 6; // ドロップを補充
 const MAIN_TASK_FALL = 7; // ドロップ落下
 const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
 
+// クマの行動
+const KUMA_TASK_INIT = 1;
+const KUMA_TASK_MOVE = 2;
+const KUMA_TASK_STOP = 3;
+const KUMA_TASK_WAIT = 4;
+const KUMA_TASK_ATTACK = 5;
+const KUMA_TASK_DAMAGE_INIT = 6;
+const KUMA_TASK_DAMAGE = 7;
+
+// 敵の行動
+const ENEMY_TASK_INIT = 1;
+const ENEMY_TASK_MOVE = 2;
+const ENEMY_TASK_WAIT = 3;
+const ENEMY_TASK_ATTACK = 4;
+const ENEMY_TASK_DAMAGE_INIT = 5;
+const ENEMY_TASK_DAMAGE = 6;
+
 const MOVE_TIME_MAX = 150;
 
 // images
@@ -40,6 +57,7 @@ const IMG_BOARD = './img/board.png';
 const IMG_MAP = './img/map.png';
 const IMG_NUMBER = './img/number.png';
 const IMG_SMALL_ICON = './img/small_icon.png';
+const IMG_MONSTER_BUT = './img/monster/but.gif';
 
 const IMG_LIST = [
 	IMG_KUMA,
@@ -47,6 +65,7 @@ const IMG_LIST = [
 	IMG_MAP,
 	IMG_NUMBER,
 	IMG_SMALL_ICON,
+	IMG_MONSTER_BUT,
 ];
 
 const IMAGE_FRAME_BOARD_BG_1 = 1;
@@ -84,11 +103,11 @@ const ELEMENT_BLACK = 5;
 
 // 試験用固定背景
 const BG_ARRAY = [
-    [27, 27, 27, 27, 27, 27, 27],
-    [27, 27, 27, 27, 27, 27, 27],
-    [27, 27, 27, 27, 27, 27, 27],
-    [ 1,  1,  1,  1,  1,  1,  1],
-    [10, 10, 10, 10, 10, 10, 10],
+	[27, 27, 27, 27, 27, 27, 27],
+	[27, 27, 27, 27, 27, 27, 27],
+	[27, 27, 27, 27, 27, 27, 27],
+	[ 1,  1,  1,  1,  1,  1,  1],
+	[10, 10, 10, 10, 10, 10, 10],
 ];
 
 // 文字列テクスチャのframe変換表

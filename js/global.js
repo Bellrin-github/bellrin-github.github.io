@@ -4,3 +4,5 @@ let liftDrop;
 let mainTask;
 let elementCountArea;
 let moveTimeLimit;
+let enemyPop;
+let enemy;

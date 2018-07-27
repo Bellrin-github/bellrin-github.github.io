@@ -23,11 +23,13 @@ cBackGround.prototype.action = function() {
 };
 
 cBackGround.prototype.draw = function() {
-	for(let y=0; y<this.bgSprits.length; ++y) {
-		for(let x=0; x<this.bgSprits[y].length; ++x) {
-			this.bgSprits[y][x].x -= kuma.speed;
-			if (this.bgSprits[y][x].x <= -SPRITE_MW) {
-				this.bgSprits[y][x].x += SPRITE_MW * this.bgSprits[y].length;
+	if (kuma.isMove()) {
+		for(let y=0; y<this.bgSprits.length; ++y) {
+			for(let x=0; x<this.bgSprits[y].length; ++x) {
+				this.bgSprits[y][x].x -= kuma.speed;
+				if (this.bgSprits[y][x].x <= -SPRITE_MW) {
+					this.bgSprits[y][x].x += SPRITE_MW * this.bgSprits[y].length;
+				}
 			}
 		}
 	}
