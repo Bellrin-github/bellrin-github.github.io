@@ -48,6 +48,7 @@ cActionArea.prototype.action = function() {
 	if (enemy) {
 		enemy.action();
 	}
+
 };
 
 cActionArea.prototype.draw = function() {

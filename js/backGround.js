@@ -1,13 +1,10 @@
 cBackGround = function() {
 	this.bgSprits;
-	this.frame;
 	this.init();
 };
 inherits(cBackGround, cTask);
 
 cBackGround.prototype.init = function() {
-	this.frame = 0;
-
 	this.bgSprits = [];
 	for(let y=0; y<BG_ARRAY.length; ++y) {
 		this.bgSprits[y] = [];
@@ -19,7 +16,7 @@ cBackGround.prototype.init = function() {
 };
 
 cBackGround.prototype.action = function() {
-	++this.frame;
+	// pass
 };
 
 cBackGround.prototype.draw = function() {
