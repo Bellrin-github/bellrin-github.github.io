@@ -36,6 +36,7 @@ cDrop.prototype.init = function(id, x, y) {
 		liftDrop.frame = this.sprite.frame;
 		liftDrop.x = touch.point.x - 16;
 		liftDrop.y = touch.point.y - 16;
+		moveTimeLimit.reset();
 		mainTask = MAIN_TASK_LIFT;
 	};
 	this.sprite.ontouchend = (e) => {

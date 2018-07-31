@@ -39,7 +39,7 @@ cMoveTimeLimit.prototype.action = function() {
 	this.timeBar.scaleX = (percent * 0.01);
 
 	if (--this.time <= 0) {
-		this.time = MOVE_TIME_MAX;
+		this.reset();
 		return false;
 	}
 
@@ -48,4 +48,8 @@ cMoveTimeLimit.prototype.action = function() {
 
 cMoveTimeLimit.prototype.draw = function() {
 
+};
+
+cMoveTimeLimit.prototype.reset = function() {
+	this.time = MOVE_TIME_MAX;
 };
