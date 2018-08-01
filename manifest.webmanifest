@@ -3,7 +3,7 @@
   "short_name": "PWA",
   "background_color": "#fc980c",
   "Scope": "/",
-  "splash_pages": null
+  "splash_pages": null,
   "icons": [{
       "src": "./images/icons/icon-256.png",
       "sizes": "256x256",
