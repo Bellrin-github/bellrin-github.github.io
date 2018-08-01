@@ -38,11 +38,15 @@ cAttackWaitBar.prototype.init = function(point, time) {
 };
 
 cAttackWaitBar.prototype.action = function() {
+	// 攻撃アニメ中は停止
+	if (isAttackAnimation) return true;
+
 	const percent = Math.floor((100 / this.maxTime) * this.time);
 	this.timeBar.scaleX = (percent * 0.01);
 
 	if (--this.time <= 0) {
 		this.time = this.maxTime;
+		isAttackAnimation = true;
 		return false;
 	}
 

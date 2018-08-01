@@ -79,6 +79,7 @@ cEnemy.prototype.action = function() {
 					this.sprite.x += 10;
 				} else {
 					this.sprite.x = SPRITE_MW * 4;
+					isAttackAnimation = false;
 					this.task = ENEMY_TASK_WAIT;
 				}
 			}

@@ -7,6 +7,7 @@ cGameMain = function() {
 inherits(cGameMain, cTask);
 
 cGameMain.prototype.init = function() {
+	isAttackAnimation = false;
 	this.scene = new Scene();
 	this.scene.addChild(this.getGroup());
 	this.scene.addEventListener('enterframe', () => {

@@ -69,7 +69,9 @@ cKuma.prototype.action = function() {
 			}
 			break;
 		case KUMA_TASK_ATTACK:
-			
+			console.log('ATTACK!!');
+			this.task = KUMA_TASK_WAIT;
+			isAttackAnimation = false;
 			++this.attackFrame;
 			break;
 		case KUMA_TASK_DAMAGE_INIT:
@@ -83,8 +85,8 @@ cKuma.prototype.action = function() {
 			}
 			if (this.damageFrame >= 18) {
 				this.sprite.opacity = 1.0;
-				this.task = KUMA_TASK_WAIT;
 				this.sprite.frame = 0;
+				this.task = KUMA_TASK_WAIT;
 			}
 			++this.damageFrame;
 			break;

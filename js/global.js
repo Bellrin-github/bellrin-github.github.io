@@ -6,3 +6,4 @@ let elementCountArea;
 let moveTimeLimit;
 let enemyPop;
 let enemy;
+let isAttackAnimation;
