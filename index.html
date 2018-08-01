@@ -6,11 +6,10 @@
 	<link rel="stylesheet" href="./css/common.css">
 	<link rel="manifest" href="manifest.webmanifest" />
 	<link rel="manifest" href="./manifest.json">
+	<script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js"
+		integrity="sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA"
+		crossorigin="anonymous"></script>
 	<script>
-		<script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js"
-			integrity="sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA"
-			crossorigin="anonymous"></script>
-
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register('./js/service-worker.js').then(function() { console.log('Service Worker Registered'); });
 		}
