@@ -8,27 +8,27 @@ inherits(cMoveTimeLimit, cTask);
 cMoveTimeLimit.prototype.init = function() {
 	this.time = MOVE_TIME_MAX;
 
-	let backGroud = new Sprite(WINDOW_SIZE_W-2, 8);
-	let surface = new Surface(WINDOW_SIZE_W-2, 8);
+	let backGroud = new Sprite(WINDOW_SIZE_W-2, 5);
+	let surface = new Surface(WINDOW_SIZE_W-2, 5);
 	surface.context.beginPath();
 	surface.context.fillStyle = 'rgba(0, 0, 0, 1.0)';
-	surface.context.fillRect(0, 0, WINDOW_SIZE_W-2, 8);
+	surface.context.fillRect(0, 0, WINDOW_SIZE_W-2, 5);
 	backGroud.image = surface;
 	this.getGroup().addChild(backGroud);
 
-	backGroud = new Sprite(WINDOW_SIZE_W-4, 7);
-	surface = new Surface(WINDOW_SIZE_W-4, 7);
+	backGroud = new Sprite(WINDOW_SIZE_W-4, 4);
+	surface = new Surface(WINDOW_SIZE_W-4, 4);
 	surface.context.beginPath();
 	surface.context.fillStyle = 'rgba(150, 150, 150, 1.0)';
-	surface.context.fillRect(1, 1, WINDOW_SIZE_W-4, 7);
+	surface.context.fillRect(1, 1, WINDOW_SIZE_W-4, 4);
 	backGroud.image = surface;
 	this.getGroup().addChild(backGroud);
 
-	this.timeBar = new Sprite(WINDOW_SIZE_W-4, 7);
-	surface = new Surface(WINDOW_SIZE_W-4, 7);
+	this.timeBar = new Sprite(WINDOW_SIZE_W-4, 4);
+	surface = new Surface(WINDOW_SIZE_W-4, 4);
 	surface.context.beginPath();
-	surface.context.fillStyle = 'rgba(255, 100, 100, 1.0)';
-	surface.context.fillRect(1, 1, WINDOW_SIZE_W-4, 7);
+	surface.context.fillStyle = 'rgba(200, 200, 255, 1.0)';
+	surface.context.fillRect(1, 1, WINDOW_SIZE_W-4, 4);
 	this.timeBar.image = surface;
 	this.timeBar.originX = 1;
 	this.getGroup().addChild(this.timeBar);
