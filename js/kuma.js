@@ -7,6 +7,7 @@ cKuma = function() {
 	this.attackFrame;
 	this.damageFrame;
 	this.damageTexts;
+	this.hpBar
 	this._stop;
 	this.init();
 };
@@ -39,6 +40,11 @@ cKuma.prototype.init = function() {
 
 	this.attackFrame = null;
 	this.attackWaitBar = null;
+
+	this.hpBar = new cHpBar(new cPoint(0, 0, WINDOW_SIZE_W - 2, 10), this.status.hp, _KUMA, [ELEMENT_NONE]);
+	this.getGroup().addChild(this.hpBar.getGroup());
+	this.hpBar.getGroup().x = 1;
+	this.hpBar.getGroup().y = ACTION_AREA_HEIGHT - 20;
 };
 
 cKuma.prototype.action = function() {
@@ -117,6 +123,9 @@ cKuma.prototype.action = function() {
 			this.damageTexts.pop(index)
 		}
 	});
+
+	this.point.x = this.sprite.x;
+	this.point.y = this.sprite.y;
 };
 
 cKuma.prototype.draw = function() {
@@ -147,6 +156,8 @@ cKuma.prototype.damage = function(n) {
 	const damageText = new cDamageText(this.point, n, DAMAGE_TEXT_COLOR_RED);
 	this.damageTexts.push(damageText);
 	this.getGroup().addChild(damageText.getGroup());
+
+	this.hpBar.minusHp(n);
 };
 
 cKuma.prototype.isMove = function() {

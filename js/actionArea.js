@@ -21,13 +21,13 @@ cActionArea.prototype.init = function() {
 	// 属性の強さエリア (actionはboad.phpに記載)
 	elementCountArea = new cElementCountArea();
 	elementCountArea.getGroup().x = 2;
-	elementCountArea.getGroup().y = 2;
+	elementCountArea.getGroup().y = 9;
 	this.getGroup().addChild(elementCountArea.getGroup());
 
 	// ドロップの操作時間 (actionはboad.phpに記載)
 	moveTimeLimit = new cMoveTimeLimit();
 	moveTimeLimit.getGroup().x = 1;
-	moveTimeLimit.getGroup().y = SPRITE_MW * 4 + SPRITE_MW - 11;
+	moveTimeLimit.getGroup().y = SPRITE_MW * 4 + SPRITE_MW-8;
 	this.getGroup().addChild(moveTimeLimit.getGroup());
 
 	// 敵出現管理

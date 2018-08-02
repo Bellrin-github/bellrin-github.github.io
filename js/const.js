@@ -18,6 +18,11 @@ const SPRITE_MH = 32;
 const SPRITE_LW = 64;
 const SPRITE_LH = 64;
 
+const ACTION_AREA_WIDTH_COUNT = 6;
+const ACTION_AREA_HEIGHT_COUNT = 5;
+const ACTION_AREA_WIDTH = 6 * SPRITE_MW;
+const ACTION_AREA_HEIGHT = 5 * SPRITE_MH;
+
 const BOARD_CELL_WIDTH_COUNT = 6;
 const BOARD_CELL_HEIGHT_COUNT = 5;
 const BOARD_CELL_WIDTH = 6 * SPRITE_MW;
@@ -31,6 +36,10 @@ const MAIN_TASK_COMBO = 5; // ドロップを消す
 const MAIN_TASK_REFLESH = 6; // ドロップを補充
 const MAIN_TASK_FALL = 7; // ドロップ落下
 const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
+
+// 共通部品の種類分けよう
+const _KUMA = 1;
+const _ENEMY = 2;
 
 // クマの行動
 const KUMA_TASK_INIT = 1;

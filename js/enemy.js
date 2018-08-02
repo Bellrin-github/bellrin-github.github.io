@@ -6,6 +6,7 @@ cEnemy = function() {
 	this.attackFrame;
 	this.damageFrame;
 	this.damageTexts;
+	this.hpBar;
 	this._stop;
 	this.init();
 };
@@ -41,6 +42,11 @@ cEnemy.prototype.init = function() {
 	this.getGroup().addChild(this.attackWaitBar.getGroup());
 
 	this.damageTexts = [];
+
+	this.hpBar = new cHpBar(new cPoint(0, 0, WINDOW_SIZE_W - 2, 6), this.status.hp, _ENEMY, [ELEMENT_RED, ELEMENT_GREEN]);
+	this.getGroup().addChild(this.hpBar.getGroup());
+	this.hpBar.getGroup().x = 1;
+	this.hpBar.getGroup().y = 1;
 };
 
 cEnemy.prototype.action = function() {
@@ -136,4 +142,6 @@ cEnemy.prototype.damage = function(n) {
 
 	this.damageTexts.push(damageText);
 	this.getGroup().addChild(damageText.getGroup());
+
+	this.hpBar.minusHp(n);
 };
