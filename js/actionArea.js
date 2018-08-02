@@ -43,10 +43,16 @@ cActionArea.prototype.action = function() {
 
 	if (enemyPop.action() != false) {
 		this.getGroup().addChild(enemy.getGroup());
+		isAttackAnimation = false;
 	}
 
 	if (enemy) {
-		enemy.action();
+		if (!enemy.action()) {
+			removeAllChild(enemy.getGroup());
+			this.getGroup().removeChild(enemy.getGroup());
+			enemy = null;
+			enemyPop.countReset();
+		}
 	}
 
 };
