@@ -3,7 +3,7 @@ cEnemy = function() {
 	this.frame;
 	this.status;
 	this.attackWaitBar;
-	this.attackFrame;
+	this.actionFrame;
 	this.damageFrame;
 	this.damageTexts;
 	this.hpBar;
@@ -20,8 +20,7 @@ cEnemy.prototype.init = function() {
 	this.point = new cPoint(WINDOW_SIZE_W, SPRITE_MH*2 + 5, 48, 48);
 
 	this.status = new cStatus();
-	this.status.hp = 100;
-	this.status.maxHp = 100;
+	this.status.hp = this.status.maxHp = 20;
 	this.status.str = 5;
 	this.status.def = 5;
 	this.status.speed = 5;
@@ -70,17 +69,17 @@ cEnemy.prototype.action = function() {
 		case ENEMY_TASK_WAIT:
 			if (!this.attackWaitBar.action()) {
 				this.task = ENEMY_TASK_ATTACK;
-				this.attackFrame = 0;
+				this.actionFrame = 0;
 			}
 			break;
 		case ENEMY_TASK_ATTACK:
-			if (this.attackFrame < 3) {
+			if (this.actionFrame < 3) {
 				this.sprite.x += 10;
 			} else
-			if (this.attackFrame < 30) {
+			if (this.actionFrame < 30) {
 				this.sprite.x -= 15;
 				if (this.sprite.x <= 32) {
-					this.attackFrame = 30;
+					this.actionFrame = 30;
 					this.sprite.x = 32;
 					kuma.damage(10);
 				}
@@ -93,7 +92,7 @@ cEnemy.prototype.action = function() {
 					this.task = ENEMY_TASK_WAIT;
 				}
 			}
-			++this.attackFrame;
+			++this.actionFrame;
 			break;
 		case ENEMY_TASK_DAMAGE_INIT:
 			this.damageFrame = 0
@@ -108,8 +107,26 @@ cEnemy.prototype.action = function() {
 				this.sprite.opacity = 1.0;
 				this.sprite.frame = 0;
 				this.task = ENEMY_TASK_WAIT;
+
+				if (this.status.hp <= 0) {
+					this.task = ENEMY_TASK_DESTROY_INIT;
+				}
 			}
 			++this.damageFrame;
+			break;
+		case ENEMY_TASK_DESTROY_INIT:
+			this.task = ENEMY_TASK_DESTROY;
+			isAttackAnimation = true;
+			this.actionFrame = 0;
+		case ENEMY_TASK_DESTROY:
+			if (++this.actionFrame % 3 == 0) {
+				this.sprite.opacity -= 0.1;
+				this.attackWaitBar.setOpacity(this.sprite.opacity);
+				this.hpBar.setOpacity(this.sprite.opacity);
+				if (this.sprite.opacity <= 0.0) {
+					return false;
+				}
+			}
 			break;
 	}
 
@@ -123,6 +140,8 @@ cEnemy.prototype.action = function() {
 
 	this.point.x = this.sprite.x;
 	this.point.y = this.sprite.y;
+
+	return true;
 };
 
 cEnemy.prototype.draw = function() {
@@ -144,4 +163,8 @@ cEnemy.prototype.damage = function(n) {
 	this.getGroup().addChild(damageText.getGroup());
 
 	this.hpBar.minusHp(n);
+	this.status.hp -= n;
+	if (this.status.hp <= 0) {
+		this.status.hp = 0;
+	}
 };
