@@ -1,6 +1,8 @@
 cAttackWaitBar = function(point, time) {
 	this.time;
 	this.maxTime;
+	this.frameBar;
+	this.bgBar;
 	this.timeBar;
 	this,point;
 	this.init(point, time);
@@ -11,21 +13,21 @@ cAttackWaitBar.prototype.init = function(point, time) {
 	this,point = point;
 	this.maxTime = this.time = time;
 
-	let backGroud = new Sprite(point.w, point.h);
+	this.frameBar = new Sprite(point.w, point.h);
 	let surface = new Surface(point.w, point.h);
 	surface.context.beginPath();
 	surface.context.fillStyle = 'rgba(0, 0, 0, 1.0)';
 	surface.context.fillRect(0, 0, point.w, point.h);
-	backGroud.image = surface;
-	this.getGroup().addChild(backGroud);
+	this.frameBar.image = surface;
+	this.getGroup().addChild(this.frameBar);
 
-	backGroud = new Sprite(point.w-2, point.h - 2);
+	this.bgBar = new Sprite(point.w-2, point.h - 2);
 	surface = new Surface(point.w-2, point.h - 2);
 	surface.context.beginPath();
 	surface.context.fillStyle = 'rgba(0, 150, 150, 1.0)';
 	surface.context.fillRect(1, 1, point.w-1, point.h - 1);
-	backGroud.image = surface;
-	this.getGroup().addChild(backGroud);
+	this.bgBar.image = surface;
+	this.getGroup().addChild(this.bgBar);
 
 	this.timeBar = new Sprite(point.w-2, point.h - 2);
 	surface = new Surface(point.w-2, point.h - 2);
@@ -55,6 +57,12 @@ cAttackWaitBar.prototype.action = function() {
 
 cAttackWaitBar.prototype.draw = function() {
 
+};
+
+cAttackWaitBar.prototype.setOpacity = function(opacity) {
+	this.frameBar.opacity = opacity;
+	this.bgBar.opacity = opacity;
+	this.timeBar.opacity = opacity;
 };
 
 cAttackWaitBar.prototype.remove = function() {

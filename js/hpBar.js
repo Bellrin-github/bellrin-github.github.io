@@ -1,6 +1,8 @@
 cHpBar = function(point, hp, type, elements) {
 	this.max;
 	this.now;
+	this.frameBar;
+	this.bgBar;
 	this.bar;
 	this.type;
 	this,point;
@@ -16,21 +18,21 @@ cHpBar.prototype.init = function(point, hp, type, elements) {
 	this.type = type;
 	this.elements = elements;
 
-	let backGroud = new Sprite(this.point.w, this.point.h);
+	this.frameBar = new Sprite(this.point.w, this.point.h);
 	let surface = new Surface(this.point.w, this.point.h);
 	surface.context.beginPath();
 	surface.context.fillStyle = 'rgba(0, 0, 0, 1.0)';
 	surface.context.fillRect(0, 0, this.point.w, this.point.h);
-	backGroud.image = surface;
-	this.getGroup().addChild(backGroud);
+	this.frameBar.image = surface;
+	this.getGroup().addChild(this.frameBar);
 
-	backGroud = new Sprite(this.point.w-2, this.point.h - 2);
+	this.bgBar = new Sprite(this.point.w-2, this.point.h - 2);
 	surface = new Surface(this.point.w-2, this.point.h - 2);
 	surface.context.beginPath();
 	surface.context.fillStyle = 'rgba(70, 70, 70, 1.0)';
 	surface.context.fillRect(1, 1, this.point.w-1, this.point.h - 1);
-	backGroud.image = surface;
-	this.getGroup().addChild(backGroud);
+	this.bgBar.image = surface;
+	this.getGroup().addChild(this.bgBar);
 
 	this.bar = new Sprite(this.point.w-2, this.point.h - 2);
 	this.bar.image = new Surface(this.point.w-2, this.point.h - 2);
@@ -89,11 +91,6 @@ cHpBar.prototype.update = function() {
 	const percent = Math.floor((100 / this.max) * this.now);
 	if (percent > 0) {
 		this.draw();
-	} else {
-		if (this.bar) {
-			this.getGroup().removeChild(this.bar);
-			this.bar = null;
-		}
 	}
 };
 
@@ -142,4 +139,10 @@ cHpBar.prototype.getRgba = function(element) {
 	}
 
 	return 'rgba(255, 220, 170, 1.0)';
+};
+
+cHpBar.prototype.setOpacity = function(opacity) {
+	this.frameBar.opacity = opacity;
+	this.bgBar.opacity = opacity;
+	this.bar.opacity = opacity;
 };
