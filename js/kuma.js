@@ -6,6 +6,7 @@ cKuma = function() {
 	this.attackWaitBar;
 	this.attackFrame;
 	this.damageFrame;
+	this.damageTexts;
 	this._stop;
 	this.init();
 };
@@ -34,6 +35,7 @@ cKuma.prototype.init = function() {
 	this.getGroup().addChild(this.sprite);
 
 	this.speed = 2;
+	this.damageTexts = [];
 
 	this.attackFrame = null;
 	this.attackWaitBar = null;
@@ -69,9 +71,25 @@ cKuma.prototype.action = function() {
 			}
 			break;
 		case KUMA_TASK_ATTACK:
-			console.log('ATTACK!!');
-			this.task = KUMA_TASK_WAIT;
-			isAttackAnimation = false;
+			if (this.attackFrame < 3) {
+				this.sprite.x -= 10;
+			} else
+			if (this.attackFrame < 30) {
+				this.sprite.x += 15;
+				if (this.sprite.x >= 32*3) {
+					this.attackFrame = 30;
+					this.sprite.x = 32*3;
+					enemy.damage(10);
+				}
+			} else {
+				if (this.sprite.x > 5) {
+					this.sprite.x -= 10;
+				} else {
+					this.sprite.x = 5;
+					isAttackAnimation = false;
+					this.task = KUMA_TASK_WAIT;
+				}
+			}
 			++this.attackFrame;
 			break;
 		case KUMA_TASK_DAMAGE_INIT:
@@ -91,6 +109,14 @@ cKuma.prototype.action = function() {
 			++this.damageFrame;
 			break;
 	}
+
+	this.damageTexts.forEach((damageText, index) => {
+		if (!damageText.action()) {
+			removeAllChild(damageText.getGroup());
+			this.getGroup().removeChild(damageText.getGroup());
+			this.damageTexts.pop(index)
+		}
+	});
 };
 
 cKuma.prototype.draw = function() {
@@ -118,6 +144,9 @@ cKuma.prototype.wait = function() {
 
 cKuma.prototype.damage = function(n) {
 	this.task = KUMA_TASK_DAMAGE_INIT;
+	const damageText = new cDamageText(this.point, n, DAMAGE_TEXT_COLOR_RED);
+	this.damageTexts.push(damageText);
+	this.getGroup().addChild(damageText.getGroup());
 };
 
 cKuma.prototype.isMove = function() {

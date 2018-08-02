@@ -4,6 +4,8 @@ cEnemy = function() {
 	this.status;
 	this.attackWaitBar;
 	this.attackFrame;
+	this.damageFrame;
+	this.damageTexts;
 	this._stop;
 	this.init();
 };
@@ -37,6 +39,8 @@ cEnemy.prototype.init = function() {
 	this.attackWaitBar.getGroup().x = this.sprite.x;
 	this.attackWaitBar.getGroup().y = -50;
 	this.getGroup().addChild(this.attackWaitBar.getGroup());
+
+	this.damageTexts = [];
 };
 
 cEnemy.prototype.action = function() {
@@ -85,7 +89,34 @@ cEnemy.prototype.action = function() {
 			}
 			++this.attackFrame;
 			break;
+		case ENEMY_TASK_DAMAGE_INIT:
+			this.damageFrame = 0
+			// this.sprite.frame = 3;
+			this.task = ENEMY_TASK_DAMAGE;
+			break;
+		case ENEMY_TASK_DAMAGE:
+			if (this.damageFrame % 3 == 0) {
+				this.sprite.opacity = this.sprite.opacity==0?1.0:0.0;
+			}
+			if (this.damageFrame >= 18) {
+				this.sprite.opacity = 1.0;
+				this.sprite.frame = 0;
+				this.task = ENEMY_TASK_WAIT;
+			}
+			++this.damageFrame;
+			break;
 	}
+
+	this.damageTexts.forEach((damageText, index) => {
+		if (!damageText.action()) {
+			removeAllChild(damageText.getGroup());
+			this.getGroup().removeChild(damageText.getGroup());
+			this.damageTexts.pop(index)
+		}
+	});
+
+	this.point.x = this.sprite.x;
+	this.point.y = this.sprite.y;
 };
 
 cEnemy.prototype.draw = function() {
@@ -95,4 +126,14 @@ cEnemy.prototype.draw = function() {
 			this.sprite.frameCount = 0;
 		}
 	}
+};
+
+cEnemy.prototype.damage = function(n) {
+	this.task = ENEMY_TASK_DAMAGE_INIT;
+
+	const x = this.point.x + this.point.w / 2 - 16;
+	const damageText = new cDamageText(new cPoint(x, this.point.y, this.point.w, this.point.h), n, DAMAGE_TEXT_COLOR_RED);
+
+	this.damageTexts.push(damageText);
+	this.getGroup().addChild(damageText.getGroup());
 };
