@@ -56,6 +56,7 @@ const IMG_KUMA = './img/kuma.png';
 const IMG_BOARD = './img/board.png';
 const IMG_MAP = './img/map.png';
 const IMG_NUMBER = './img/number.png';
+const IMG_FONT2 = './img/font2.png';
 const IMG_SMALL_ICON = './img/small_icon.png';
 const IMG_MONSTER_BUT = './img/monster/but.gif';
 
@@ -64,6 +65,7 @@ const IMG_LIST = [
 	IMG_BOARD,
 	IMG_MAP,
 	IMG_NUMBER,
+	IMG_FONT2,
 	IMG_SMALL_ICON,
 	IMG_MONSTER_BUT,
 ];
@@ -123,3 +125,21 @@ const TEXT_TEXTURE_FRAME_LIST = {
 	"8": 8,
 	"9": 9,
 };
+
+// ダメージ文字列テクスチャのframe変換表
+const DAMAGE_TEXT_TEXTURE_FRAME_LIST = {
+	"0": 0,
+	"1": 1,
+	"2": 2,
+	"3": 3,
+	"4": 4,
+	"5": 5,
+	"6": 6,
+	"7": 7,
+	"8": 8,
+	"9": 9,
+};
+const DAMAGE_TEXT_COLOR_WHITE = 0;
+const DAMAGE_TEXT_COLOR_RED = 1;
+const DAMAGE_TEXT_COLOR_GREEN = 2;
+const DAMAGE_TEXT_COLOR_BLUE = 3;
