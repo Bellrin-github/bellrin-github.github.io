@@ -20,9 +20,9 @@ cEnemy.prototype.init = function() {
 	this.point = new cPoint(WINDOW_SIZE_W, SPRITE_MH*2 + 5, 48, 48);
 
 	this.status = new cStatus();
-	this.status.hp = this.status.maxHp = 50;
-	this.status.str = 50;
-	this.status.def = 5;
+	this.status.hp = this.status.maxHp = 10;
+	this.status.str = 5;
+	this.status.def = 0;
 	this.status.speed = 5;
 
 	this.sprite = createSprite(IMG_MONSTER_BUT, 2, this.point);

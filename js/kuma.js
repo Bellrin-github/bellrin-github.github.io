@@ -19,10 +19,10 @@ cKuma.prototype.init = function() {
 	this.point = new cPoint(5, SPRITE_MH*3-14, SPRITE_MW, SPRITE_MH);
 
 	this.status = new cStatus();
-	this.status.hp = 20;
+	this.status.hp = 30;
 	this.status.maxHp = 20;
 	this.status.str = 5;
-	this.status.def = 5;
+	this.status.def = 0;
 	this.status.speed = 5;
 
 	this.sprite = createSprite(IMG_KUMA, 0, this.point);
@@ -85,7 +85,7 @@ cKuma.prototype.action = function() {
 				if (this.sprite.x >= 32*3) {
 					this.actionFrame = 30;
 					this.sprite.x = 32*3;
-					enemy.damage(10);
+					enemy.damage(this.status.str);
 				}
 			} else {
 				if (this.sprite.x > 5) {
