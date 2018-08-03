@@ -20,9 +20,9 @@ cEnemy.prototype.init = function() {
 	this.point = new cPoint(WINDOW_SIZE_W, SPRITE_MH*2 + 5, 48, 48);
 
 	this.status = new cStatus();
-	this.status.hp = this.status.maxHp = 20;
+	this.status.hp = this.status.maxHp = 10;
 	this.status.str = 5;
-	this.status.def = 5;
+	this.status.def = 0;
 	this.status.speed = 5;
 
 	this.sprite = createSprite(IMG_MONSTER_BUT, 2, this.point);
@@ -81,7 +81,7 @@ cEnemy.prototype.action = function() {
 				if (this.sprite.x <= 32) {
 					this.actionFrame = 30;
 					this.sprite.x = 32;
-					kuma.damage(10);
+					kuma.damage(this.status.str);
 				}
 			} else {
 				if (this.sprite.x < SPRITE_MW * 4) {

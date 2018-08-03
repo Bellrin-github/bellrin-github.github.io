@@ -41,6 +41,11 @@ const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
 const _KUMA = 1;
 const _ENEMY = 2;
 
+// ゲームメインのタスク
+const GAME_MAIN_TASK_ACTION = 1;
+const GAME_MAIN_TASK_GAMEOVER = 2;
+const GAME_MAIN_TASK_MOVE_TITLE_WAIT = 3;
+
 // クマの行動
 const KUMA_TASK_INIT = 1;
 const KUMA_TASK_MOVE = 2;
@@ -49,6 +54,9 @@ const KUMA_TASK_WAIT = 4;
 const KUMA_TASK_ATTACK = 5;
 const KUMA_TASK_DAMAGE_INIT = 6;
 const KUMA_TASK_DAMAGE = 7;
+const KUMA_TASK_DESTROY_INIT = 8;
+const KUMA_TASK_DESTROY = 9;
+const KUMA_TASK_GAMEOVER = 10;
 
 // 敵の行動
 const ENEMY_TASK_INIT = 1;
