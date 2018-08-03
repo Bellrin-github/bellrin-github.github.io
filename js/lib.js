@@ -6,6 +6,7 @@ const removeAllChild = function(group) {
 	if (!group) return;
 
 	while(group.lastChild) {
+		removeAllChild(group.lastChild);
 		group.removeChild(group.lastChild);
 	}
 };
