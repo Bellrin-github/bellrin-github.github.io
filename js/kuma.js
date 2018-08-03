@@ -4,7 +4,7 @@ cKuma = function() {
 	this.speed;
 	this.status;
 	this.attackWaitBar;
-	this.attackFrame;
+	this.actionFrame;
 	this.damageFrame;
 	this.damageTexts;
 	this.hpBar
@@ -19,10 +19,10 @@ cKuma.prototype.init = function() {
 	this.point = new cPoint(5, SPRITE_MH*3-14, SPRITE_MW, SPRITE_MH);
 
 	this.status = new cStatus();
-	this.status.hp = 100;
-	this.status.maxHp = 100;
+	this.status.hp = 30;
+	this.status.maxHp = 20;
 	this.status.str = 5;
-	this.status.def = 5;
+	this.status.def = 0;
 	this.status.speed = 5;
 
 	this.sprite = createSprite(IMG_KUMA, 0, this.point);
@@ -38,7 +38,7 @@ cKuma.prototype.init = function() {
 	this.speed = 2;
 	this.damageTexts = [];
 
-	this.attackFrame = null;
+	this.actionFrame = null;
 	this.attackWaitBar = null;
 
 	this.hpBar = new cHpBar(new cPoint(0, 0, WINDOW_SIZE_W - 2, 10), this.status.hp, _KUMA, [ELEMENT_NONE]);
@@ -59,12 +59,12 @@ cKuma.prototype.action = function() {
 			}
 			break;
 		case KUMA_TASK_STOP:
-			this.attackFrame = null;
+			this.actionFrame = null;
 			this.attackWaitBar = null;
 			break;
 		case KUMA_TASK_WAIT:
-			if (this.attackFrame == null && this.attackWaitBar == null) {
-				this.attackFrame = 0;
+			if (this.actionFrame == null && this.attackWaitBar == null) {
+				this.actionFrame = 0;
 				this.attackWaitBar = new cAttackWaitBar(new cPoint(this.point.x, this.point.y, 32, 6), 100);
 				this.attackWaitBar.getGroup().x = this.point.x;
 				this.attackWaitBar.getGroup().y = this.point.y - 5;
@@ -73,19 +73,19 @@ cKuma.prototype.action = function() {
 
 			if (!this.attackWaitBar.action()) {
 				this.task = KUMA_TASK_ATTACK;
-				this.attackFrame = 0;
+				this.actionFrame = 0;
 			}
 			break;
 		case KUMA_TASK_ATTACK:
-			if (this.attackFrame < 3) {
+			if (this.actionFrame < 3) {
 				this.sprite.x -= 10;
 			} else
-			if (this.attackFrame < 30) {
+			if (this.actionFrame < 30) {
 				this.sprite.x += 15;
 				if (this.sprite.x >= 32*3) {
-					this.attackFrame = 30;
+					this.actionFrame = 30;
 					this.sprite.x = 32*3;
-					enemy.damage(10);
+					enemy.damage(this.status.str);
 				}
 			} else {
 				if (this.sprite.x > 5) {
@@ -96,7 +96,7 @@ cKuma.prototype.action = function() {
 					this.task = KUMA_TASK_WAIT;
 				}
 			}
-			++this.attackFrame;
+			++this.actionFrame;
 			break;
 		case KUMA_TASK_DAMAGE_INIT:
 			this.damageFrame = 0
@@ -109,10 +109,29 @@ cKuma.prototype.action = function() {
 			}
 			if (this.damageFrame >= 18) {
 				this.sprite.opacity = 1.0;
-				this.sprite.frame = 0;
-				this.task = KUMA_TASK_WAIT;
+				if (this.status.hp <= 0) {
+					this.task = KUMA_TASK_DESTROY_INIT;
+				} else {
+					this.sprite.frame = 0;
+					this.task = KUMA_TASK_WAIT;
+				}
 			}
 			++this.damageFrame;
+			break;
+		case ENEMY_TASK_DESTROY_INIT:
+			this.task = ENEMY_TASK_DESTROY;
+			isAttackAnimation = true;
+			this.actionFrame = 0;
+		case ENEMY_TASK_DESTROY:
+			if (++this.actionFrame % 3 == 0) {
+				this.sprite.opacity -= 0.1;
+				this.attackWaitBar.setOpacity(this.sprite.opacity);
+				this.hpBar.setOpacity(this.sprite.opacity);
+				if (this.sprite.opacity <= 0.0) {
+					removeAllChild(this.getGroup());
+					return false;
+				}
+			}
 			break;
 	}
 
@@ -126,6 +145,8 @@ cKuma.prototype.action = function() {
 
 	this.point.x = this.sprite.x;
 	this.point.y = this.sprite.y;
+
+	return true;
 };
 
 cKuma.prototype.draw = function() {
@@ -158,6 +179,11 @@ cKuma.prototype.damage = function(n) {
 	this.getGroup().addChild(damageText.getGroup());
 
 	this.hpBar.minusHp(n);
+
+	this.status.hp -= n;
+	if (this.status.hp <= 0) {
+		this.status.hp = 0;
+	}
 };
 
 cKuma.prototype.isMove = function() {

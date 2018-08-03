@@ -57,6 +57,10 @@ cHpBar.prototype.draw = function() {
 	this.bar.image.context.beginPath();
 	this.bar.image.context.clearRect(0, 0, barWidth, barHeight);
 
+	if (percent <= 0) {
+		return;
+	}
+
 	if (this.elements.length < 2) {
 		if (this.type == _KUMA) {
 			this.bar.image.context.fillStyle = this.getRgba(this.elements[0]);
@@ -88,10 +92,7 @@ cHpBar.prototype.draw = function() {
 };
 
 cHpBar.prototype.update = function() {
-	const percent = Math.floor((100 / this.max) * this.now);
-	if (percent > 0) {
-		this.draw();
-	}
+	this.draw();
 };
 
 cHpBar.prototype.setHp = function(n) {

@@ -19,8 +19,8 @@ cGameTitle.prototype.init = function() {
 	});
 
 	this.scene.addEventListener(Event.TOUCH_START, function(e) {
-		this.scene.removeEventListener('enterframe');
-		this.scene.removeEventListener(Event.TOUCH_START);
+		this.scene.clearEventListener('enterframe');
+		this.scene.clearEventListener(Event.TOUCH_START);
 
 		let gameMain = new cGameMain();
 		gameMain.init();

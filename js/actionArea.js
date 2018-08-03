@@ -38,8 +38,12 @@ cActionArea.prototype.init = function() {
 };
 
 cActionArea.prototype.action = function() {
+	if (!kuma.action()) {
+		// ゲームオーバー
+		return false;
+	}
+
 	this.backGround.action();
-	kuma.action();
 
 	if (enemyPop.action() != false) {
 		this.getGroup().addChild(enemy.getGroup());
@@ -52,9 +56,11 @@ cActionArea.prototype.action = function() {
 			this.getGroup().removeChild(enemy.getGroup());
 			enemy = null;
 			enemyPop.countReset();
+			kuma.move();
 		}
 	}
 
+	return true;;
 };
 
 cActionArea.prototype.draw = function() {
