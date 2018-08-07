@@ -14,15 +14,15 @@ cActionArea.prototype.init = function() {
 	this.backGround = new cBackGround();
 	this.getGroup().addChild(this.backGround.getGroup());
 
-	// クマ作成
-	kuma = new cKuma();
-	this.getGroup().addChild(kuma.getGroup());
-
 	// 属性の強さエリア (actionはboad.phpに記載)
 	elementCountArea = new cElementCountArea();
 	elementCountArea.getGroup().x = 2;
 	elementCountArea.getGroup().y = 9;
 	this.getGroup().addChild(elementCountArea.getGroup());
+
+	// クマ作成
+	kuma = new cKuma();
+	this.getGroup().addChild(kuma.getGroup());
 
 	// ドロップの操作時間 (actionはboad.phpに記載)
 	moveTimeLimit = new cMoveTimeLimit();
