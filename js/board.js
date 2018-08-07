@@ -371,6 +371,23 @@ cBoard.prototype.dropDeleteAnimation = function() {
 		if (!isDelete) {
 			++this.deleteGroupId;
 		} else {
+			// つながっている数が「6」の場合、横一列消しかをチェックする。
+			if (count == 6) {
+				for (let y=0; y<BOARD_CELL_HEIGHT_COUNT; ++y) {
+					let isLineDelete = true;
+					for (let x=0; x<BOARD_CELL_WIDTH_COUNT; ++x) {
+						if (this.dropColors[y][x].group != this.deleteGroupId) {
+							isLineDelete = false;
+							break;
+						}
+					}
+					if (isLineDelete) {
+						kuma.setElement(color);
+						break;
+					}
+				}
+			}
+
 			++this.comboCount;
 			// コンボ数
 			this.refleshComboText(this.comboCount, comboTextX, comboTextY);

@@ -19,4 +19,25 @@ const createSprite = function (img, frame, point) {
 	sprite.frame = frame;
 	sprite.frameCount = 0;;
 	return sprite;
-}
+};
+
+const convertElement = function (element) {
+	if (element < 10) {
+		return element
+	}
+
+	switch (element) {
+		case IMAGE_FRAME_BOARD_DROP_RED:
+			return ELEMENT_RED;
+		case IMAGE_FRAME_BOARD_DROP_BLUE:
+			return ELEMENT_BLUE;
+		case IMAGE_FRAME_BOARD_DROP_GREEN:
+			return ELEMENT_GREEN;
+		case IMAGE_FRAME_BOARD_DROP_YELLOW:
+			return ELEMENT_YELLOW;
+		case IMAGE_FRAME_BOARD_DROP_PURPLE:
+			return ELEMENT_BLACK;
+	}
+
+	return ELEMENT_NONE;
+};

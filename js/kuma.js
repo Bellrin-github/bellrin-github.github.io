@@ -193,3 +193,8 @@ cKuma.prototype.isMove = function() {
 cKuma.prototype.isStop = function() {
 	return this._stop;
 };
+
+cKuma.prototype.setElement = function(element) {
+	this.status.element = element;
+	this.hpBar.setElements([element]);
+};

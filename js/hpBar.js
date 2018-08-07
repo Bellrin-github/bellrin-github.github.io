@@ -147,3 +147,11 @@ cHpBar.prototype.setOpacity = function(opacity) {
 	this.bgBar.opacity = opacity;
 	this.bar.opacity = opacity;
 };
+
+cHpBar.prototype.setElements = function(elements) {
+	this.elements = elements;
+	for (let i=0; i<this.elements.length; ++i) {
+		this.elements[i] = convertElement(this.elements[i]);
+	}
+	this.update();
+};
