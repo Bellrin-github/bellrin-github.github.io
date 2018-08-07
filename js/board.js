@@ -99,6 +99,8 @@ cBoard.prototype.action = function() {
 				this.deleteGroupId = 0;
 				this.frame = 0;
 				mainTask = MAIN_TASK_COMBO;
+			} else {
+				this.updateComboHistory();
 			}
 			break;
 		case MAIN_TASK_COMBO: // ドロップを消す
@@ -371,6 +373,23 @@ cBoard.prototype.dropDeleteAnimation = function() {
 		if (!isDelete) {
 			++this.deleteGroupId;
 		} else {
+			// つながっている数が「6」の場合、横一列消しかをチェックする。
+			if (count == 6) {
+				for (let y=0; y<BOARD_CELL_HEIGHT_COUNT; ++y) {
+					let isLineDelete = true;
+					for (let x=0; x<BOARD_CELL_WIDTH_COUNT; ++x) {
+						if (this.dropColors[y][x].group != this.deleteGroupId) {
+							isLineDelete = false;
+							break;
+						}
+					}
+					if (isLineDelete) {
+						kuma.setElement(color);
+						break;
+					}
+				}
+			}
+
 			++this.comboCount;
 			// コンボ数
 			this.refleshComboText(this.comboCount, comboTextX, comboTextY);
@@ -465,4 +484,15 @@ cBoard.prototype.refleshComboText = function(num, x, y) {
 
 	this.comboText = new cComboText(num, new cPoint(x, y, 8, 8));
 	this.getGroup().addChild(this.comboText.getGroup());
+};
+
+cBoard.prototype.updateComboHistory = function() {
+	if (comboCountHistory.length < COMBO_HISTORY_MAX) {
+		comboCountHistory[comboCountHistory.length] = this.comboCount;
+	} else {
+		for (let i=0; i<COMBO_HISTORY_MAX-1; ++i) {
+			comboCountHistory[i] = comboCountHistory[i+1];
+		}
+		comboCountHistory[COMBO_HISTORY_MAX-1] = this.comboCount;
+	}
 };

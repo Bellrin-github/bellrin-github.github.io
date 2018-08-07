@@ -75,6 +75,26 @@ cElementCountArea.prototype.draw = function() {
 
 };
 
+cElementCountArea.prototype.getCount = function(element) {
+	element = convertElement(element);
+	switch (element) {
+		case ELEMENT_RED:
+			return this.redCount;
+		case ELEMENT_BLUE:
+			return this.blueCount;
+		case ELEMENT_GREEN:
+			return this.greenCount;
+		case ELEMENT_YELLOW:
+			return this.yellowCount;
+		case ELEMENT_BLACK:
+			return this.blackCount;
+		case ELEMENT_PINK:
+			return this.pinkCount;
+	}
+
+	return 0;
+};
+
 cElementCountArea.prototype.addRedCount = function(n) {
 	this.redCount += n;
 	this.refleshRedText();
