@@ -19,11 +19,12 @@ cKuma.prototype.init = function() {
 	this.point = new cPoint(5, SPRITE_MH*3-14, SPRITE_MW, SPRITE_MH);
 
 	this.status = new cStatus();
-	this.status.hp = 30;
-	this.status.maxHp = 20;
-	this.status.str = 5;
+	this.status.hp = 100;
+	this.status.maxHp = 100;
+	this.status.str = 10;
 	this.status.def = 0;
 	this.status.speed = 5;
+	this.status.element = ELEMENT_NONE;
 
 	this.sprite = createSprite(IMG_KUMA, 0, this.point);
 	this.sprite.frames = [
@@ -41,7 +42,7 @@ cKuma.prototype.init = function() {
 	this.actionFrame = null;
 	this.attackWaitBar = null;
 
-	this.hpBar = new cHpBar(new cPoint(0, 0, WINDOW_SIZE_W - 2, 10), this.status.hp, _KUMA, [ELEMENT_NONE]);
+	this.hpBar = new cHpBar(new cPoint(0, 0, WINDOW_SIZE_W - 2, 10), this.status.hp, _KUMA, [this.status.element]);
 	this.getGroup().addChild(this.hpBar.getGroup());
 	this.hpBar.getGroup().x = 1;
 	this.hpBar.getGroup().y = ACTION_AREA_HEIGHT - 20;
@@ -85,7 +86,7 @@ cKuma.prototype.action = function() {
 				if (this.sprite.x >= 32*3) {
 					this.actionFrame = 30;
 					this.sprite.x = 32*3;
-					enemy.damage(this.status.str);
+					enemy.damage(this.status.str, this.status.element);
 				}
 			} else {
 				if (this.sprite.x > 5) {
@@ -172,15 +173,17 @@ cKuma.prototype.wait = function() {
 	this.task = KUMA_TASK_WAIT;
 };
 
-cKuma.prototype.damage = function(n) {
+cKuma.prototype.damage = function(emenyAtk, element) {
+	const damage = this.getDamage(emenyAtk, element);
 	this.task = KUMA_TASK_DAMAGE_INIT;
-	const damageText = new cDamageText(this.point, n, DAMAGE_TEXT_COLOR_RED);
+	const x = this.point.x + this.point.w / 2;
+	const damageText = new cDamageText(new cPoint(x, this.point.y, this.point.w, this.point.h), damage, DAMAGE_TEXT_COLOR_RED, getElementMagnification(element, this.getElement()));
 	this.damageTexts.push(damageText);
 	this.getGroup().addChild(damageText.getGroup());
 
-	this.hpBar.minusHp(n);
+	this.hpBar.minusHp(damage);
 
-	this.status.hp -= n;
+	this.status.hp -= damage;
 	if (this.status.hp <= 0) {
 		this.status.hp = 0;
 	}
@@ -197,4 +200,12 @@ cKuma.prototype.isStop = function() {
 cKuma.prototype.setElement = function(element) {
 	this.status.element = element;
 	this.hpBar.setElements([element]);
+};
+
+cKuma.prototype.getElement = function() {
+	return this.status.element;
+};
+
+cKuma.prototype.getDamage = function(emenyAtk, element) {
+	return Math.ceil(emenyAtk * getElementMagnification(element, this.getElement()));
 };

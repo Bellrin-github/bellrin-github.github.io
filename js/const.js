@@ -41,6 +41,8 @@ const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
 const _KUMA = 1;
 const _ENEMY = 2;
 
+const COMBO_HISTORY_MAX = 5;
+
 // ゲームメインのタスク
 const GAME_MAIN_TASK_ACTION = 1;
 const GAME_MAIN_TASK_GAMEOVER = 2;
@@ -75,7 +77,7 @@ const IMG_KUMA = './img/kuma.png';
 const IMG_BOARD = './img/board.png';
 const IMG_MAP = './img/map.png';
 const IMG_NUMBER = './img/number.png';
-const IMG_FONT2 = './img/font2.png';
+const IMG_NUMBER_16 = './img/number_16.png';
 const IMG_SMALL_ICON = './img/small_icon.png';
 const IMG_MONSTER_BUT = './img/monster/but.gif';
 
@@ -84,7 +86,7 @@ const IMG_LIST = [
 	IMG_BOARD,
 	IMG_MAP,
 	IMG_NUMBER,
-	IMG_FONT2,
+	IMG_NUMBER_16,
 	IMG_SMALL_ICON,
 	IMG_MONSTER_BUT,
 ];
@@ -121,6 +123,7 @@ const ELEMENT_BLUE = 2;
 const ELEMENT_GREEN = 3;
 const ELEMENT_YELLOW = 4;
 const ELEMENT_BLACK = 5;
+const ELEMENT_PINK = 6;
 
 // 試験用固定背景
 const BG_ARRAY = [
@@ -147,18 +150,33 @@ const TEXT_TEXTURE_FRAME_LIST = {
 
 // ダメージ文字列テクスチャのframe変換表
 const DAMAGE_TEXT_TEXTURE_FRAME_LIST = {
-	"0": 0,
-	"1": 1,
-	"2": 2,
-	"3": 3,
-	"4": 4,
-	"5": 5,
-	"6": 6,
-	"7": 7,
-	"8": 8,
-	"9": 9,
+	"0": 9,
+	"1": 0,
+	"2": 1,
+	"3": 2,
+	"4": 3,
+	"5": 4,
+	"6": 5,
+	"7": 6,
+	"8": 7,
+	"9": 8,
 };
 const DAMAGE_TEXT_COLOR_WHITE = 0;
 const DAMAGE_TEXT_COLOR_RED = 1;
-const DAMAGE_TEXT_COLOR_GREEN = 2;
-const DAMAGE_TEXT_COLOR_BLUE = 3;
+const DAMAGE_TEXT_COLOR_BLUE = 2;
+const DAMAGE_TEXT_COLOR_GREEN = 3;
+
+// 平均コンボのダメージ倍率表
+const COMBO_AVARAGE_DAMAGE_BONUS_LIST = {
+	0: 1.0,
+	1: 1.0,
+	2: 1.0,
+	3: 1.0,
+	4: 1.2,
+	5: 1.5,
+	6: 2.0,
+	7: 3.0,
+	8: 5.0,
+	9: 7.0,
+	10: 10.0, // 以上
+};

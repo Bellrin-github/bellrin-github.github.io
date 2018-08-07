@@ -7,3 +7,4 @@ let moveTimeLimit;
 let enemyPop;
 let enemy;
 let isAttackAnimation;
+let comboCountHistory;

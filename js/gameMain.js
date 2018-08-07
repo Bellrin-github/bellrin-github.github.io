@@ -17,6 +17,9 @@ cGameMain.prototype.init = function() {
 		this.draw();
 	});
 
+	// コンボ数履歴初期化
+	comboCountHistory = [];
+
 	// パズルエリア作成
 	this.board = new cBoard();
 	this.getGroup().addChild(this.board.getGroup());

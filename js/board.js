@@ -99,6 +99,8 @@ cBoard.prototype.action = function() {
 				this.deleteGroupId = 0;
 				this.frame = 0;
 				mainTask = MAIN_TASK_COMBO;
+			} else {
+				this.updateComboHistory();
 			}
 			break;
 		case MAIN_TASK_COMBO: // ドロップを消す
@@ -482,4 +484,15 @@ cBoard.prototype.refleshComboText = function(num, x, y) {
 
 	this.comboText = new cComboText(num, new cPoint(x, y, 8, 8));
 	this.getGroup().addChild(this.comboText.getGroup());
+};
+
+cBoard.prototype.updateComboHistory = function() {
+	if (comboCountHistory.length < COMBO_HISTORY_MAX) {
+		comboCountHistory[comboCountHistory.length] = this.comboCount;
+	} else {
+		for (let i=0; i<COMBO_HISTORY_MAX-1; ++i) {
+			comboCountHistory[i] = comboCountHistory[i+1];
+		}
+		comboCountHistory[COMBO_HISTORY_MAX-1] = this.comboCount;
+	}
 };

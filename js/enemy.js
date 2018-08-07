@@ -20,10 +20,11 @@ cEnemy.prototype.init = function() {
 	this.point = new cPoint(WINDOW_SIZE_W, SPRITE_MH*2 + 5, 48, 48);
 
 	this.status = new cStatus();
-	this.status.hp = this.status.maxHp = 10;
-	this.status.str = 5;
+	this.status.hp = this.status.maxHp = 40;
+	this.status.str = 12;
 	this.status.def = 0;
 	this.status.speed = 5;
+	this.status.element = [1 + Math.floor(Math.random() * 5)];
 
 	this.sprite = createSprite(IMG_MONSTER_BUT, 2, this.point);
 	this.sprite.frames = [
@@ -42,7 +43,7 @@ cEnemy.prototype.init = function() {
 
 	this.damageTexts = [];
 
-	this.hpBar = new cHpBar(new cPoint(0, 0, WINDOW_SIZE_W - 2, 6), this.status.hp, _ENEMY, [ELEMENT_RED, ELEMENT_GREEN]);
+	this.hpBar = new cHpBar(new cPoint(0, 0, WINDOW_SIZE_W - 2, 6), this.status.hp, _ENEMY, this.status.element);
 	this.getGroup().addChild(this.hpBar.getGroup());
 	this.hpBar.getGroup().x = 1;
 	this.hpBar.getGroup().y = 1;
@@ -81,7 +82,7 @@ cEnemy.prototype.action = function() {
 				if (this.sprite.x <= 32) {
 					this.actionFrame = 30;
 					this.sprite.x = 32;
-					kuma.damage(this.status.str);
+					kuma.damage(this.status.str, this.getNowElement());
 				}
 			} else {
 				if (this.sprite.x < SPRITE_MW * 4) {
@@ -153,18 +154,38 @@ cEnemy.prototype.draw = function() {
 	}
 };
 
-cEnemy.prototype.damage = function(n) {
+cEnemy.prototype.damage = function(kumaAtk, element) {
+	const damage = this.getDamage(kumaAtk, element);
+
 	this.task = ENEMY_TASK_DAMAGE_INIT;
 
-	const x = this.point.x + this.point.w / 2 - 16;
-	const damageText = new cDamageText(new cPoint(x, this.point.y, this.point.w, this.point.h), n, DAMAGE_TEXT_COLOR_RED);
+	const x = this.point.x + this.point.w / 2;
+	const damageText = new cDamageText(new cPoint(x, this.point.y, this.point.w, this.point.h), damage, DAMAGE_TEXT_COLOR_RED, getElementMagnification(element, this.getNowElement()));
 
 	this.damageTexts.push(damageText);
 	this.getGroup().addChild(damageText.getGroup());
 
-	this.hpBar.minusHp(n);
-	this.status.hp -= n;
+	this.hpBar.minusHp(damage);
+	this.status.hp -= damage;
 	if (this.status.hp <= 0) {
 		this.status.hp = 0;
 	}
+};
+
+cEnemy.prototype.getNowElement = function() {
+	const percent = Math.floor((100 / this.status.maxHp) * this.status.hp);
+
+	for (let i=1; i<=this.status.element.length; ++i) {
+		if (Math.floor((100 / this.status.element.length)) * i >= percent) {
+			return this.status.element[i-1];
+		}
+	}
+
+	return this.status.element[this.status.element.length-1];
+};
+
+cEnemy.prototype.getDamage = function(kumaAtk, element) {
+	// (クマの攻撃力 + クマの属性のストック / 10) * 平均コンボ数倍率 * 属性相性倍率 = 45ダメージ
+	const baseDamage = kumaAtk + Math.ceil(elementCountArea.getCount(element) / 10);
+	return Math.ceil(baseDamage * getComboAverageDamageBonus() * getElementMagnification(element, this.getNowElement()));
 };
