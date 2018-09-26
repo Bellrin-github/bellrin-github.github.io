@@ -5,7 +5,8 @@
 </head>
 <body>
   <form name="form1">
-    <input type="text" name="text1" id="text1" value="" />
+    <input type="text" name="text1" id="text1" value="" /><br>
+    <span name="span1" id="span1"></span><br>
     <input type="button" name="btn" id="btn" value="CLICK!!" onclick="focusSet('text1');" /><br><br>
     <textarea name="textArea" id="textArea" style="width: 50%; height: 50%;"></textarea>
   </form>
@@ -32,7 +33,16 @@
     window.addEventListener('load', function(){
       addLog("END load !!");
       document.form1.btn.click();
-    },false);
+      document.getElementById("span1").innerHTML = '<input type="text" name="text2" id="text2" value="" />';
+      document.getElementById("text2").focus();
+      
+      /*
+      setTimeout(() => {
+        document.form1.text2.focus();
+      }, 1000);
+      */
+      
+    }, false);
 
     class TouchEmulator {
       constructor(){
