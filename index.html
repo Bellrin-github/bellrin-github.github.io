@@ -8,7 +8,7 @@
   <form name="form1">
     <input type="text" name="text1" id="text1" value="" /><br>
     <span name="span1" id="span1"></span><br>
-    <input type="button" name="btn" id="btn" value="CLICK!!" onclick="focusSet('text2');" /><br><br>
+    <input type="button" name="btn" id="btn" value="CLICK!!" /><br><br>
     <textarea name="textArea" id="textArea" style="width: 50%; height: 50%;"></textarea>
   </form>
   <script>
@@ -49,6 +49,14 @@
       };
       document.addEventListener('DOMContentLoaded', fire, false);
     });
+
+    document.form1.btn.addEventListener('click', function(event) {
+      if (document.activeElement == document.form1.text1) {
+        focusSet("text2");
+      } else {
+        focusSet("text1");
+      }
+    }, false);
 
     document.form1.btn.addEventListener('touchstart', function(event) {
       addLog("touchstart");
