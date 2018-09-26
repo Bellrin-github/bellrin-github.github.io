@@ -40,8 +40,8 @@
       emulator.touchend(1, {x: clientRect.left+20, y: clientRect.top+16});
 */
 
-      var evt = document.createEvent("MouseEvents");  
-      evt.initMouseEvent("click", true, true, window, 1, 10, 10, 10, 10, false, false, false, false, 0, document.form1.btn);  
+      var evt = document.createEvent("MouseEvents");
+      evt.initMouseEvent("click", true, true, window, 1, 10, 10, 10, 10, false, false, false, false, 0, document.form1.btn);
       document.form1.btn.dispatchEvent( evt ); 
 
       // clearInterval(id);
@@ -57,6 +57,7 @@
     });
 
     document.form1.btn.addEventListener('click', function(event) {
+      addLog("isTrusted: " + (event.isTrusted?'TRUE':'FALSE'));
       if (document.activeElement == document.form1.text1) {
         focusSet("text2");
       } else {
