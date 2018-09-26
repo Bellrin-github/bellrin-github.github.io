@@ -33,6 +33,7 @@
 
       var emulator = new TouchEmulator();
       emulator.touchstart(1, {x: clientRect.left+10, y: clientRect.top+10});
+      emulator.touchmove(1, {x: clientRect.left+10, y: clientRect.top+10});
       emulator.touchend(1, {x: clientRect.left+10, y: clientRect.top+10});
 
       // clearInterval(id);
@@ -49,6 +50,10 @@
 
     document.form1.btn.addEventListener('touchstart', function(event) {
       addLog("touchstart");
+    }, false);
+
+    document.form1.btn.addEventListener('touchmove', function(event) {
+      addLog("touchmove");
     }, false);
 
     document.form1.btn.addEventListener('touchend', function(event) {
