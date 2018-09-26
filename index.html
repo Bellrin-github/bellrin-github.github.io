@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>TITLE</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 <body>
   <form name="form1">
@@ -14,6 +15,10 @@
     const addLog = (text) => {
       document.form1.textArea.value = document.form1.textArea.value +
         (document.form1.textArea.value==""?"":"\n") + text;
+    }
+
+    document.getElementById("text1").onkeydown = function(e){
+      addLog(e.keyCode);
     }
 
     const focusSet = function(id) {
@@ -35,8 +40,14 @@
       document.form1.btn.click();
       document.getElementById("span1").innerHTML = '<input type="text" name="text2" id="text2" value="" />';
 
-      setTimeout(()=>{ document.form1.text2.focus(); }, 3000);
-
+//      setTimeout(()=>{ document.form1.text2.focus(); }, 3000);
+/*
+      setTimeout(()=>{
+        document.dispatchEvent(new KeyboardEvent("keydown",{
+            key: "a"
+        }));
+      }, 3000);
+*/
     }, false);
 
     class TouchEmulator {
