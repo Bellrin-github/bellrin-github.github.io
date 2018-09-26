@@ -1,47 +1,100 @@
+<!DOCUMENT HTML>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-	<title>縺上∪繝ｼ</title>
-	<link rel="stylesheet" href="./css/common.css">
-	<link rel="manifest" href="./manifest.webmanifest" />
-	<script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.6/pwacompat.min.js"
-		integrity="sha384-GOaSLecPIMCJksN83HLuYf9FToOiQ2Df0+0ntv7ey8zjUHESXhthwvq9hXAZTifA"
-		crossorigin="anonymous"></script>
-	<script>
-		if ('serviceWorker' in navigator) {
-			navigator.serviceWorker.register('./js/service-worker.js').then(function() { console.log('Service Worker Registered'); });
-		}
-	</script>
-	<script src="./js/enchant_js/enchant.js"></script>
-	<script src="./js/point.js?201807131658"></script>
-	<script src="./js/const.js?201807131658"></script>
-	<script src="./js/class.js?201807131658"></script>
-	<script src="./js/global.js?201807131658"></script>
-	<script src="./js/task.js?201807131658"></script>
-	<script src="./js/lib.js?201807131658"></script>
-	<script src="./js/status.js?201807131658"></script>
-	<script src="./js/stock.js?201807131658"></script>
-	<script src="./js/gameMain.js?201807131658"></script>
-	<script src="./js/gameTitle.js?201807131658"></script>
-	<script src="./js/main.js?201807131658"></script>
-	<script src="./js/actionArea.js?201807131658"></script>
-	<script src="./js/kuma.js?201807131658"></script>
-	<script src="./js/board.js?201807131658"></script>
-	<script src="./js/touch.js?201807131658"></script>
-	<script src="./js/backGround.js?201807131658"></script>
-	<script src="./js/drop.js?201807131658"></script>
-	<script src="./js/imageText.js?201807241150"></script>
-	<script src="./js/comboText.js?201807241150"></script>
-	<script src="./js/elementCountArea.js?201807241150"></script>
-	<script src="./js/moveTimeLimit.js?201807241150"></script>
-	<script src="./js/enemyPop.js?201807241150"></script>
-	<script src="./js/enemy.js?201807241150"></script>
-	<script src="./js/attackWaitBar.js?201807241150"></script>
-	<script src="./js/damageText.js?201807241150"></script>
-	<script src="./js/hpBar.js?201807241150"></script>
+  <title>TITLE</title>
 </head>
 <body>
-<!--	<div id="enchant-stage"></div> -->
+  <form name="form1">
+    <input type="text" name="text1" id="text1" value="" />
+    <input type="button" name="btn" id="btn" value="CLICK!!" onclick="focusSet('text1');" />
+  </form>
+  <script>
+    const focusSet = function(id) {
+      document.getElementById(id).focus();
+    };
+
+    const promise = new Promise(resolve => {
+      const fire = () => {
+        resolve();
+        document.removeEventListener('DOMContentLoaded', fire, false);
+        console.log("END DOMContentLoaded !!");
+      };
+      document.addEventListener('DOMContentLoaded', fire, false);
+    });
+
+    window.addEventListener('load', function(){
+      console.log("END load !!");
+      document.form1.btn.click();
+    },false);
+
+    class TouchEmulator {
+      constructor(){
+        this.touches = []; // 全タッチを保持
+      }
+
+      touchstart(id, point){
+        const target = document.elementFromPoint(point.x, point.y);
+        const touch = this.createTouch(id, target, point);
+
+        // touchesに追加
+        this.touches.push(touch);
+
+        this.triggerTouchEvent('touchstart', touch);
+      }
+
+      touchmove(id, point){
+        const index = this.touches.findIndex(t => t.identifier === id);
+        const target = this.touches[index].target;
+
+        const touch = this.createTouch(id, target, point);
+
+        // touchesを更新
+        this.touches[index] = touch;
+
+        this.triggerTouchEvent('touchmove', touch);
+      }
+
+      touchend(id, point){
+        const target = this.touches.find(t => t.identifier === id).target;
+
+        const touch = this.createTouch(id, target, point);
+
+        // touchesから除去
+        this.touches = this.touches.filter(t => t.identifier !== id);
+
+        this.triggerTouchEvent('touchend', touch);    
+      }
+
+      // Touchをxとyから生成する
+      createTouch(identifier, target, point){
+        return new Touch({
+          identifier,
+          target,
+          clientX: point.x,
+          clientY: point.y,
+          pageX: point.x + window.pageXOffset,
+          pageY: point.y + window.pageYOffset,
+          radiusX: 10,
+          radiusY: 10,
+          force: 1
+        });  
+      }
+
+      // TouchEventを作って発火する
+      triggerTouchEvent(name, touch) {
+        // targetが同じTouchを取り出す
+        const targetTouches = this.touches.filter(t => t.target === touch.target);
+        const event = new TouchEvent(name, {
+          touches: this.touches,
+          targetTouches,
+          changedTouches: [touch],
+          bubbles: true, // これがないとバブリングしない
+          cancelable: true,
+          view: window
+        });
+        touch.target.dispatchEvent(event);
+      }
+    }
+  </script>
 </body>
 </html>
