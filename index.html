@@ -6,9 +6,15 @@
 <body>
   <form name="form1">
     <input type="text" name="text1" id="text1" value="" />
-    <input type="button" name="btn" id="btn" value="CLICK!!" onclick="focusSet('text1');" />
+    <input type="button" name="btn" id="btn" value="CLICK!!" onclick="focusSet('text1');" /><br><br>
+    <textarea name="textArea" id="textArea" style="width: 50%; height: 50%;"></textarea>
   </form>
   <script>
+    const addLog = (text) => {
+      document.form1.textArea.value = document.form1.textArea.value +
+        (document.form1.textArea.value==""?"":"\n") + text;
+    }
+
     const focusSet = function(id) {
       document.getElementById(id).focus();
     };
@@ -17,26 +23,25 @@
       const fire = () => {
         resolve();
         document.removeEventListener('DOMContentLoaded', fire, false);
-        console.log("END DOMContentLoaded !!");
+        addLog("END DOMContentLoaded");
       };
       document.addEventListener('DOMContentLoaded', fire, false);
     });
 
     window.addEventListener('load', function(){
-      console.log("END load !!");
+      addLog("END load !!");
       document.form1.btn.click();
     },false);
 
     class TouchEmulator {
       constructor(){
-        this.touches = []; // 全タッチを保持
+        this.touches = [];
       }
 
       touchstart(id, point){
         const target = document.elementFromPoint(point.x, point.y);
         const touch = this.createTouch(id, target, point);
 
-        // touchesに追加
         this.touches.push(touch);
 
         this.triggerTouchEvent('touchstart', touch);
@@ -48,7 +53,6 @@
 
         const touch = this.createTouch(id, target, point);
 
-        // touchesを更新
         this.touches[index] = touch;
 
         this.triggerTouchEvent('touchmove', touch);
@@ -59,13 +63,11 @@
 
         const touch = this.createTouch(id, target, point);
 
-        // touchesから除去
         this.touches = this.touches.filter(t => t.identifier !== id);
 
-        this.triggerTouchEvent('touchend', touch);    
+        this.triggerTouchEvent('touchend', touch);
       }
 
-      // Touchをxとyから生成する
       createTouch(identifier, target, point){
         return new Touch({
           identifier,
@@ -80,15 +82,13 @@
         });  
       }
 
-      // TouchEventを作って発火する
       triggerTouchEvent(name, touch) {
-        // targetが同じTouchを取り出す
         const targetTouches = this.touches.filter(t => t.target === touch.target);
         const event = new TouchEvent(name, {
           touches: this.touches,
           targetTouches,
           changedTouches: [touch],
-          bubbles: true, // これがないとバブリングしない
+          bubbles: true,
           cancelable: true,
           view: window
         });
