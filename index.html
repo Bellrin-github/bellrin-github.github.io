@@ -19,6 +19,7 @@
 
     document.getElementById("text1").onkeydown = function(e){
       addLog(e.keyCode);
+      e.preventDefault();
     }
 
     const focusSet = function(id) {
