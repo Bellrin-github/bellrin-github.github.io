@@ -27,6 +27,13 @@
       document.getElementById(id).focus();
     };
 
+document.addEventListener("DOMFocusIn", function(event) {
+  addLog("DOMFocusIn");
+}, false);
+document.addEventListener("DOMFocusOut", function(event) {
+  addLog("DOMFocusOut");
+}, false);
+
     const promise = new Promise(resolve => {
       const fire = () => {
         resolve();
