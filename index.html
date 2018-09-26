@@ -8,7 +8,7 @@
   <form name="form1">
     <input type="text" name="text1" id="text1" value="" /><br>
     <span name="span1" id="span1"></span><br>
-    <input type="button" name="btn" id="btn" value="CLICK!!" onclick="focusSet('text1');" /><br><br>
+    <input type="button" name="btn" id="btn" value="CLICK!!" onclick="focusSet('text2');" /><br><br>
     <textarea name="textArea" id="textArea" style="width: 50%; height: 50%;"></textarea>
   </form>
   <script>
@@ -24,7 +24,9 @@
 
     const focusSet = function(id) {
       addLog("focusSet");
-      document.getElementById(id).focus();
+      if (document.getElementById(id)) {
+        document.getElementById(id).focus();
+      }
     };
 
     const id = setInterval(function(){
@@ -58,6 +60,7 @@
 
     document.form1.btn.addEventListener('touchend', function(event) {
       addLog("touchend");
+      this.click();
     }, false);
 
     window.addEventListener('load', function(){
