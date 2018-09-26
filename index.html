@@ -28,7 +28,8 @@
     };
 
     const id = setInterval(function(){
-      addLog(document.body.clientHeight);
+      var clientRect = document.form1.btn.getBoundingClientRect() ;
+      addLog(clientRect.left + " : " + clientRect.top);
       // clearInterval(id);
     }, 1000);
 
