@@ -33,10 +33,16 @@
       var clientRect = document.form1.btn.getBoundingClientRect() ;
       addLog(clientRect.left + " : " + clientRect.top);
 
+/*
       var emulator = new TouchEmulator();
       emulator.touchstart(1, {x: clientRect.left+10, y: clientRect.top+10});
       emulator.touchmove(1, {x: clientRect.left+15, y: clientRect.top+13});
       emulator.touchend(1, {x: clientRect.left+20, y: clientRect.top+16});
+*/
+
+      var evt = document.createEvent("MouseEvents");  
+      evt.initMouseEvent("click", true, true, window, 1, 10, 10, 10, 10, false, false, false, false, 0, document.form1.btn);  
+      document.form1.btn.dispatchEvent( evt ); 
 
       // clearInterval(id);
     }, 1000);
@@ -62,6 +68,7 @@
       addLog("text1 focus");
     }, false);
 
+/*
     document.form1.btn.addEventListener('touchstart', function(event) {
       addLog("touchstart");
     }, false);
@@ -74,6 +81,7 @@
       addLog("touchend");
       this.click();
     }, false);
+*/
 
     window.addEventListener('load', function(){
       addLog("END load !!");
@@ -84,7 +92,7 @@
       }, false);
     }, false);
     
-        class TouchEmulator {
+    class TouchEmulator {
       constructor(){
         this.touches = [];
       }
