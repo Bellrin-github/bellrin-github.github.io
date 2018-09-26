@@ -13,8 +13,8 @@
   </form>
   <script>
     const addLog = (text) => {
-      document.form1.textArea.value = document.form1.textArea.value +
-        (document.form1.textArea.value==""?"":"\n") + text;
+      document.form1.textArea.value = text +
+        (document.form1.textArea.value==""?"":"\n") + document.form1.textArea.value;
     }
 
     document.getElementById("text1").onkeydown = function(e){
@@ -27,12 +27,10 @@
       document.getElementById(id).focus();
     };
 
-document.addEventListener("DOMFocusIn", function(event) {
-  addLog("DOMFocusIn");
-}, false);
-document.addEventListener("DOMFocusOut", function(event) {
-  addLog("DOMFocusOut");
-}, false);
+    const id = setInterval(function(){
+      addLog(document.body.clientHeight);
+      // clearInterval(id);
+    }, 1000);
 
     const promise = new Promise(resolve => {
       const fire = () => {
