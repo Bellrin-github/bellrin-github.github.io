@@ -18,25 +18,23 @@
     }
 
     const focusSet = function(id) {
-        addLog("focusSet");
         if (document.getElementById(id)) {
             document.getElementById(id).focus();
         }
     };
 
     document.form1.btn.addEventListener('click', function(event) {
+    console.log(event);
+        addLog("btnClick : " + (event.isTrusted?'TRUE':'FALSE'));
         focusSet("text1");
-        return event;
     }, false);
 
     document.form1.text1.addEventListener('focus', function(event) {
-        addLog("text1 focus");
-        addLog("isTrusted: " + (event.isTrusted?'TRUE':'FALSE'));
+        addLog("text1 focus : " + (event.isTrusted?'TRUE':'FALSE'));
     }, false);
 
     document.form1.text1.addEventListener('DOMFocusIn', function(event) {
-        addLog("text1 DOMFocusIn");
-        addLog("isTrusted: " + (event.isTrusted?'TRUE':'FALSE'));
+        addLog("text1 DOMFocusIn : " + (event.isTrusted?'TRUE':'FALSE'));
     }, false);
 
     window.addEventListener('load', function(){
