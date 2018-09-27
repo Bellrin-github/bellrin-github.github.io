@@ -1,4 +1,4 @@
-<!DOCUMENT HTML>
+<!DOCTYPE HTML>
 <html>
 <head>
   <title>TITLE</title>
@@ -9,152 +9,41 @@
     <input type="text" name="text1" id="text1" value="" /><br>
     <span name="span1" id="span1"></span><br>
     <input type="button" name="btn" id="btn" value="CLICK!!" /><br><br>
-    <textarea name="textArea" id="textArea" style="width: 50%; height: 50%;"></textarea>
+    <textarea name="textArea" id="textArea" style="width: 50%; height: 200px;"></textarea>
   </form>
   <script>
-    const addLog = (text) => {
-      document.form1.textArea.value = text +
-        (document.form1.textArea.value==""?"":"\n") + document.form1.textArea.value;
-    }
-
-    document.getElementById("text1").onkeydown = function(e){
-      addLog(e.keyCode);
-      e.preventDefault();
+    const addLog = function(text) {
+        document.form1.textArea.value = text +
+          (document.form1.textArea.value==""?"":"\n") + document.form1.textArea.value;
     }
 
     const focusSet = function(id) {
-      addLog("focusSet");
-      if (document.getElementById(id)) {
-        document.getElementById(id).focus();
-      }
+        addLog("focusSet");
+        if (document.getElementById(id)) {
+            document.getElementById(id).focus();
+        }
     };
 
-    const id = setInterval(function(){
-      var clientRect = document.form1.btn.getBoundingClientRect() ;
-      addLog(clientRect.left + " : " + clientRect.top);
-
-/*
-      var emulator = new TouchEmulator();
-      emulator.touchstart(1, {x: clientRect.left+10, y: clientRect.top+10});
-      emulator.touchmove(1, {x: clientRect.left+15, y: clientRect.top+13});
-      emulator.touchend(1, {x: clientRect.left+20, y: clientRect.top+16});
-*/
-
-      var evt = document.createEvent("MouseEvents");
-      evt.initMouseEvent("click", true, true, window, 1, 10, 10, 10, 10, false, false, false, false, 0, document.form1.btn);
-      document.form1.btn.dispatchEvent( evt ); 
-
-      // clearInterval(id);
-    }, 1000);
-
-    const promise = new Promise(resolve => {
-      const fire = () => {
-        resolve();
-        document.removeEventListener('DOMContentLoaded', fire, false);
-        addLog("END DOMContentLoaded");
-      };
-      document.addEventListener('DOMContentLoaded', fire, false);
-    });
-
     document.form1.btn.addEventListener('click', function(event) {
-      addLog("isTrusted: " + (event.isTrusted?'TRUE':'FALSE'));
-      if (document.activeElement == document.form1.text1) {
-        focusSet("text2");
-      } else {
         focusSet("text1");
-      }
+        return event;
     }, false);
 
     document.form1.text1.addEventListener('focus', function(event) {
-      addLog("text1 focus");
+        addLog("text1 focus");
+        addLog("isTrusted: " + (event.isTrusted?'TRUE':'FALSE'));
     }, false);
 
-/*
-    document.form1.btn.addEventListener('touchstart', function(event) {
-      addLog("touchstart");
+    document.form1.text1.addEventListener('DOMFocusIn', function(event) {
+        addLog("text1 DOMFocusIn");
+        addLog("isTrusted: " + (event.isTrusted?'TRUE':'FALSE'));
     }, false);
-
-    document.form1.btn.addEventListener('touchmove', function(event) {
-      addLog("touchmove");
-    }, false);
-
-    document.form1.btn.addEventListener('touchend', function(event) {
-      addLog("touchend");
-      this.click();
-    }, false);
-*/
 
     window.addEventListener('load', function(){
-      addLog("END load !!");
-      document.form1.btn.click();
-      document.getElementById("span1").innerHTML = '<input type="text" name="text2" id="text2" value="" />';
-      document.form1.text2.addEventListener('focus', function(event) {
-        addLog("text2 focus");
-      }, false);
+        addLog("END load !!");
+        document.form1.btn.click();
     }, false);
-    
-    class TouchEmulator {
-      constructor(){
-        this.touches = [];
-      }
 
-      touchstart(id, point){
-        const target = document.elementFromPoint(point.x, point.y);
-        const touch = this.createTouch(id, target, point);
-
-        this.touches.push(touch);
-
-        this.triggerTouchEvent('touchstart', touch);
-      }
-
-      touchmove(id, point){
-        const index = this.touches.findIndex(t => t.identifier === id);
-        const target = this.touches[index].target;
-
-        const touch = this.createTouch(id, target, point);
-
-        this.touches[index] = touch;
-
-        this.triggerTouchEvent('touchmove', touch);
-      }
-
-      touchend(id, point){
-        const target = this.touches.find(t => t.identifier === id).target;
-
-        const touch = this.createTouch(id, target, point);
-
-        this.touches = this.touches.filter(t => t.identifier !== id);
-
-        this.triggerTouchEvent('touchend', touch);
-      }
-
-      createTouch(identifier, target, point){
-        return new Touch({
-          identifier,
-          target,
-          clientX: point.x,
-          clientY: point.y,
-          pageX: point.x + window.pageXOffset,
-          pageY: point.y + window.pageYOffset,
-          radiusX: 10,
-          radiusY: 10,
-          force: 1
-        });  
-      }
-
-      triggerTouchEvent(name, touch) {
-        const targetTouches = this.touches.filter(t => t.target === touch.target);
-        const event = new TouchEvent(name, {
-          touches: this.touches,
-          targetTouches,
-          changedTouches: [touch],
-          bubbles: true,
-          cancelable: true,
-          view: window
-        });
-        touch.target.dispatchEvent(event);
-      }
-    }
   </script>
 </body>
 </html>
