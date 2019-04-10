@@ -1,6 +1,6 @@
 // global
-const WINDOW_SIZE_W = 192;
-const WINDOW_SIZE_H = 320;
+const WINDOW_SIZE_W = 32 * 12;
+const WINDOW_SIZE_H = 32 * 12;
 const FPS = 30;
 
 // font関連
@@ -18,165 +18,55 @@ const SPRITE_MH = 32;
 const SPRITE_LW = 64;
 const SPRITE_LH = 64;
 
-const ACTION_AREA_WIDTH_COUNT = 6;
-const ACTION_AREA_HEIGHT_COUNT = 5;
-const ACTION_AREA_WIDTH = 6 * SPRITE_MW;
-const ACTION_AREA_HEIGHT = 5 * SPRITE_MH;
-
-const BOARD_CELL_WIDTH_COUNT = 6;
-const BOARD_CELL_HEIGHT_COUNT = 5;
-const BOARD_CELL_WIDTH = 6 * SPRITE_MW;
-const BOARD_CELL_HEIGHT = 5 * SPRITE_MH;
-
-const MAIN_TASK_WAIT = 1; // ドロップ持ち上げ待ち
-const MAIN_TASK_LIFT = 2; // ドロップ持ち上げ中
-const MAIN_TASK_MOVE = 3; // ドロップ移動中
-const MAIN_TASK_CHECK = 4; // ドロップが消えるかチェック
-const MAIN_TASK_COMBO = 5; // ドロップを消す
-const MAIN_TASK_REFLESH = 6; // ドロップを補充
-const MAIN_TASK_FALL = 7; // ドロップ落下
-const MAIN_TASK_POWER_UP = 8; // パワーアップ演出
-
-// 共通部品の種類分けよう
-const _KUMA = 1;
-const _ENEMY = 2;
-
-const COMBO_HISTORY_MAX = 5;
-
 // ゲームメインのタスク
 const GAME_MAIN_TASK_ACTION = 1;
 const GAME_MAIN_TASK_GAMEOVER = 2;
-const GAME_MAIN_TASK_MOVE_TITLE_WAIT = 3;
 
-// クマの行動
-const KUMA_TASK_INIT = 1;
-const KUMA_TASK_MOVE = 2;
-const KUMA_TASK_STOP = 3;
-const KUMA_TASK_WAIT = 4;
-const KUMA_TASK_ATTACK = 5;
-const KUMA_TASK_DAMAGE_INIT = 6;
-const KUMA_TASK_DAMAGE = 7;
-const KUMA_TASK_DESTROY_INIT = 8;
-const KUMA_TASK_DESTROY = 9;
-const KUMA_TASK_GAMEOVER = 10;
+// 箱のグラフィック番号
+const CUBE_IMG_FRAME_NORMAL = 0;
+const CUBE_IMG_FRAME_NORMAL_SHADOW = 1;
+const CUBE_IMG_FRAME_HANGING = 2;
+const CUBE_IMG_FRAME_HANGING_SHADOW = 3;
 
-// 敵の行動
-const ENEMY_TASK_INIT = 1;
-const ENEMY_TASK_MOVE = 2;
-const ENEMY_TASK_WAIT = 3;
-const ENEMY_TASK_ATTACK = 4;
-const ENEMY_TASK_DAMAGE_INIT = 5;
-const ENEMY_TASK_DAMAGE = 6;
-const ENEMY_TASK_DESTROY_INIT = 7;
-const ENEMY_TASK_DESTROY = 8;
-
-const MOVE_TIME_MAX = 150;
+// マップのタスク
+const MAP_TASK_INPUT_INIT = 0; // 初期化
+const MAP_TASK_INPUT_WAIT = 1; // 入力待ち
+const MAP_TASK_CUBE_MOVE = 2; // ブロックを押す・引く
+const MAP_TASK_CUBE_FALL_CHECK = 3; // ブロックが落下するかチェック
+const MAP_TASK_CUBE_FALL = 4; // ブロックが落下処理
+const MAP_TASK_CHARACTER_FALL_CHECK = 5; // キャラクターが落下するかチェック
+const MAP_TASK_CHARACTER_FALL = 6; // キャラクターが落下処理
 
 // images
-const IMG_KUMA = './img/kuma.png';
-const IMG_BOARD = './img/board.png';
-const IMG_MAP = './img/map.png';
-const IMG_NUMBER = './img/number.png';
-const IMG_NUMBER_16 = './img/number_16.png';
-const IMG_SMALL_ICON = './img/small_icon.png';
-const IMG_MONSTER_BUT = './img/monster/but.gif';
+const IMG_CUBE_NORMAL = './img/cube_normal.png';
+const IMG_CHARACTER = './img/character.png';
 
 const IMG_LIST = [
-	IMG_KUMA,
-	IMG_BOARD,
-	IMG_MAP,
-	IMG_NUMBER,
-	IMG_NUMBER_16,
-	IMG_SMALL_ICON,
-	IMG_MONSTER_BUT,
+	IMG_CUBE_NORMAL,
+	IMG_CHARACTER
 ];
-
-const IMAGE_FRAME_BOARD_BG_1 = 1;
-const IMAGE_FRAME_BOARD_BG_2 = 2;
-const IMAGE_FRAME_BOARD_DROP_RED = 10;
-const IMAGE_FRAME_BOARD_DROP_BLUE = 11;
-const IMAGE_FRAME_BOARD_DROP_GREEN = 12;
-const IMAGE_FRAME_BOARD_DROP_YELLOW = 13;
-const IMAGE_FRAME_BOARD_DROP_PURPLE = 14;
-const IMAGE_FRAME_BOARD_DROP_PINK = 15;
-
-// スモールアイコン画像のframeリスト
-const SMALL_IMAGE_FRAME_LIST = {
-	'red_icon': 0,
-	'blue_icon': 1,
-	'green_icon': 2,
-	'yellow_icon': 3,
-	'black_icon': 4,
-	'pink_icon': 5,
-};
 
 // 向き定数
 const D_RIGHT = 0;
-const D_UP = 1;
-const D_DOWN = 2;
-const D_LEFT = 3;
+const D_DOWN = 1;
+const D_LEFT = 2;
+const D_TOP = 3;
 
-// 属性定数
-const ELEMENT_NONE = 0;
-const ELEMENT_RED = 1;
-const ELEMENT_BLUE = 2;
-const ELEMENT_GREEN = 3;
-const ELEMENT_YELLOW = 4;
-const ELEMENT_BLACK = 5;
-const ELEMENT_PINK = 6;
+// マップ関連
+const MAP_X_MAX = 10;
+const MAP_Y_MAX = 10;
+const MAP_Z_MAX = 10;
 
-// 試験用固定背景
-const BG_ARRAY = [
-	[27, 27, 27, 27, 27, 27, 27],
-	[27, 27, 27, 27, 27, 27, 27],
-	[27, 27, 27, 27, 27, 27, 27],
-	[ 1,  1,  1,  1,  1,  1,  1],
-	[10, 10, 10, 10, 10, 10, 10],
-];
+// キャラクターの状態
+const CHARACTER_STATUS_NORMAL = 1;
+const CHARACTER_STATUS_HANGING = 2;
 
-// 文字列テクスチャのframe変換表
-const TEXT_TEXTURE_FRAME_LIST = {
-	"0": 0,
-	"1": 1,
-	"2": 2,
-	"3": 3,
-	"4": 4,
-	"5": 5,
-	"6": 6,
-	"7": 7,
-	"8": 8,
-	"9": 9,
-};
-
-// ダメージ文字列テクスチャのframe変換表
-const DAMAGE_TEXT_TEXTURE_FRAME_LIST = {
-	"0": 9,
-	"1": 0,
-	"2": 1,
-	"3": 2,
-	"4": 3,
-	"5": 4,
-	"6": 5,
-	"7": 6,
-	"8": 7,
-	"9": 8,
-};
-const DAMAGE_TEXT_COLOR_WHITE = 0;
-const DAMAGE_TEXT_COLOR_RED = 1;
-const DAMAGE_TEXT_COLOR_BLUE = 2;
-const DAMAGE_TEXT_COLOR_GREEN = 3;
-
-// 平均コンボのダメージ倍率表
-const COMBO_AVARAGE_DAMAGE_BONUS_LIST = {
-	0: 1.0,
-	1: 1.0,
-	2: 1.0,
-	3: 1.0,
-	4: 1.2,
-	5: 1.5,
-	6: 2.0,
-	7: 3.0,
-	8: 5.0,
-	9: 7.0,
-	10: 10.0, // 以上
-};
+// キャラクターのアクション
+const CHARACTER_ACTION_WAIT = 0; // 待機
+const CHARACTER_ACTION_MOVE = 1; // 移動
+const CHARACTER_ACTION_ROTATE = 2; // 向き変え
+const CHARACTER_ACTION_PUSH = 3; // 押した
+const CHARACTER_ACTION_PULL = 4; // 引いた
+const CHARACTER_ACTION_HANGING_MOVE = 5; // ぶら下がり移動
+const CHARACTER_ACTION_HANGING_FALL = 6; // ぶら下がり落下
+const CHARACTER_ACTION_HANGING_UP = 7; // ぶら下がり上り

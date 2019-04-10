@@ -1,8 +1,6 @@
 /**
- * タスククラス
+ * タスク
  */
-
-// クラスの宣言とコンストラクタ宣言
 var cTask = function() {
 	this.group = null;
 	this.task = TASK_INIT;

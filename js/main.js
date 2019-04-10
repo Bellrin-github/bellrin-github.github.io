@@ -6,6 +6,9 @@ window.onload = function() {
 	game = new Core(WINDOW_SIZE_W, WINDOW_SIZE_H); // game stage
 	game.fps = FPS;
 
+	game.keybind('Z'.charCodeAt(0), 'z');
+	game.keybind('X'.charCodeAt(0), 'x');
+
 	// 必要な画像を読みこみ
 	for(let i=0; i<IMG_LIST.length; ++i) {
 		game.preload(IMG_LIST[i]);
