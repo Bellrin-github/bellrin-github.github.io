@@ -76,6 +76,22 @@ cKeyInput.prototype.isLeft = function() {
 	return this.left == 1;
 };
 
+cKeyInput.prototype.setUp = function(up) {
+	this.up = up;
+};
+
+cKeyInput.prototype.setRight = function(right) {
+	this.right = right;
+};
+
+cKeyInput.prototype.setDown = function(down) {
+	this.down = down;
+};
+
+cKeyInput.prototype.setLeft = function(left) {
+	this.left = left;
+};
+
 cKeyInput.prototype.isZ = function() {
 	return this.z > 0;
 };
