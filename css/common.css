@@ -6,6 +6,11 @@ body {
 	background-color: #000;
 }
 
+p {
+	margin: 0px;
+	padding: 0px;
+}
+
 #enchant-stage {
 #	margin: auto;
 #	top: 0;
